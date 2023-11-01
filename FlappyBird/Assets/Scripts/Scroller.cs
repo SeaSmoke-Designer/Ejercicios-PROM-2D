@@ -9,20 +9,23 @@ public class Scroller : MonoBehaviour
 
     //private float tp = 28.45f;
 
+    [SerializeField]
+    float parallaxSpeed;
 
-    private float parallaxSpeed = -1.2f;
+    [SerializeField]
+    float begin;
 
-    public float begin;
-    public float end;
+    [SerializeField]
+    float end;
 
     //private float resetPosition = -29;
     //private float initialOffset = 29.1619f - 28.44f;
 
-    [SerializeField]
-    GameObject background1;
+    //[SerializeField]
+    //GameObject background1;
     
-    [SerializeField]
-    GameObject background2;
+    //[SerializeField]
+    //GameObject background2;
 
     // Start is called before the first frame update
     void Start()
