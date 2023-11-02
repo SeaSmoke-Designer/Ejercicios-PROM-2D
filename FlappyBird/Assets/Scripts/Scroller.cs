@@ -43,17 +43,17 @@ public class Scroller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-    }
-
-    void FixedUpdate()
-    {
-        transform.Translate(parallaxSpeed * Time.fixedDeltaTime, 0, 0);
-        if(transform.position.x <= end)
+        transform.Translate(parallaxSpeed * Time.deltaTime, 0, 0);
+        if (transform.position.x <= end)
         {
             Vector2 start = new Vector2(begin, transform.position.y);
             transform.position = start;
         }
+    }
+
+    void FixedUpdate()
+    {
+        
 
 
         /*float backgroundSpeed = parallaxSpeed * Time.fixedDeltaTime;
@@ -87,4 +87,8 @@ public class Scroller : MonoBehaviour
         //bgToReset.transform.position = newPosition;
     }*/
 
+    public void PipesMove(GameObject pipe)
+    {
+        pipe.transform.Translate(parallaxSpeed * Time.deltaTime, 0, 0);
+    }
 }

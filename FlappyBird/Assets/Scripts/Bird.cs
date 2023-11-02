@@ -5,8 +5,12 @@ using UnityEngine;
 
 public class Bird : MonoBehaviour
 {
-    public float jumpSpeed;
-    public Rigidbody2D rb;
+    [SerializeField]
+    float jumpSpeed;
+
+    [SerializeField]
+    Rigidbody2D rb;
+
     private bool isJump;
 
     private float movement;

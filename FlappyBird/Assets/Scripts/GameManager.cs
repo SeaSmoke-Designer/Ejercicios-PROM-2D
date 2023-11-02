@@ -5,11 +5,13 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public GameObject birdPrefab;
+    [SerializeField]
+    GameObject birdPrefab;
 
     private GameObject bird;
 
-    public TextMeshProUGUI startText;
+    [SerializeField]
+    TextMeshProUGUI startText;
     private bool isPlaying;
 
     // Start is called before the first frame update
