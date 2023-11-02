@@ -9,29 +9,47 @@ public class Scroller : MonoBehaviour
 
     //private float tp = 28.45f;
 
-    [SerializeField]
-    float parallaxSpeed;
+    //[SerializeField]
+    private float parallaxSpeedBackground;
+    private float parallaxSpeedGround;
 
-    [SerializeField]
-    float begin;
+    //[SerializeField]
+    private float beginBackground1;
+    private float beginBackground2;
 
-    [SerializeField]
+    //[SerializeField]
     float end;
+    private float diferencia;
 
     //private float resetPosition = -29;
     //private float initialOffset = 29.1619f - 28.44f;
 
-    //[SerializeField]
-    //GameObject background1;
+    [SerializeField]
+    GameObject background1;
     
-    //[SerializeField]
-    //GameObject background2;
+    [SerializeField]
+    GameObject background2;
+
+    [SerializeField]
+    GameObject ground1;
+
+    [SerializeField]
+    GameObject ground2;
 
     // Start is called before the first frame update
     void Start()
     {
         //background1.transform.position = new Vector3(11.36f, background1.transform.position.y, background1.transform.position.z);
         //background2.transform.position = new Vector3(11.36f + initialOffset, background2.transform.position.y, background2.transform.position.z);
+    }
+
+    void Awake()
+    {
+        beginBackground1 = background1.transform.position.x;
+        beginBackground2 = background2.transform.position.x;
+        diferencia = beginBackground2 - beginBackground1;
+        parallaxSpeedBackground = -1.2f;
+        end = -29.28f;
     }
     //11.36
     //40.46 / 40.27
@@ -40,15 +58,28 @@ public class Scroller : MonoBehaviour
     //44.7
     //
 
+
+    //begin background1: 2.88163
+    //begin background2: 31.8
+    // sale de camara: -37.28
+
     // Update is called once per frame
+    private float resetPosition = 21.03f;
     void Update()
     {
-        transform.Translate(parallaxSpeed * Time.deltaTime, 0, 0);
-        if (transform.position.x <= end)
+        float backgroundSpeed =  parallaxSpeedBackground * Time.deltaTime;
+        background1.transform.Translate(Vector2.right.x*backgroundSpeed, 0, 0);
+        background2.transform.Translate(Vector2.right.x*backgroundSpeed,0,0);
+        if (background1.transform.position.x <= end)
         {
-            Vector2 start = new Vector2(begin, transform.position.y);
-            transform.position = start;
+            
+            background1.transform.position  = new Vector2(beginBackground1+diferencia, background1.transform.position.y);
+            //transform.position = start;
         }
+        if(background2.transform.position.x <= end){
+            background2.transform.position = new Vector2(beginBackground1+diferencia, background2.transform.position.y);
+        }
+
     }
 
     void FixedUpdate()
@@ -89,6 +120,6 @@ public class Scroller : MonoBehaviour
 
     public void PipesMove(GameObject pipe)
     {
-        pipe.transform.Translate(parallaxSpeed * Time.deltaTime, 0, 0);
+        //pipe.transform.Translate(parallaxSpeed * Time.deltaTime, 0, 0);
     }
 }
