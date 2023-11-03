@@ -53,9 +53,9 @@ public class Paddle : MonoBehaviour
     void OnCollisionEnter2D(Collision2D collision2D){
         if(collision2D.gameObject.tag.Equals("Ball")){
             if(gameObject.tag.Equals("Player1"))
-                GameObject.Find("Ball").GetComponent<Ball>().AumentarVelocidadBall(true);
+                collision2D.gameObject.GetComponent<Ball>().AumentarVelocidadBall(true);
             else if(gameObject.tag.Equals("Player2"))
-                GameObject.Find("Ball").GetComponent<Ball>().AumentarVelocidadBall(false);
+                collision2D.gameObject.GetComponent<Ball>().AumentarVelocidadBall(false);
             
         }
     }
