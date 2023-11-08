@@ -39,10 +39,13 @@ public class Scroller : MonoBehaviour
     [SerializeField]
     GameObject ground2;
 
+    private List<GameObject> pipesPair;
+    private bool movePipes = false;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        pipesPair = new List<GameObject>();
     }
 
     void Awake()
@@ -57,6 +60,8 @@ public class Scroller : MonoBehaviour
     {
         BackgroundsMove();
         GroundsMove();
+        if(movePipes)
+            PipeMove();
     }
 
     void FixedUpdate()
@@ -65,9 +70,18 @@ public class Scroller : MonoBehaviour
     }
 
 
-    public void PipesMove(GameObject pipe)
+    public void PipesMove(List<GameObject> pipes)
     {
-        pipe.transform.Translate(parallaxSpeedGround * Time.deltaTime, 0, 0);
+        pipesPair = pipes;
+        movePipes = true;
+    }
+
+    public void PipeMove(){
+        float speed = parallaxSpeedGround * Time.deltaTime;
+        foreach (GameObject pipe in pipesPair)
+        {
+            pipe.transform.Translate(Vector2.right.x*speed, 0, 0);
+        }
     }
 
     void BackgroundsMove(){
@@ -103,5 +117,15 @@ public class Scroller : MonoBehaviour
         differenceGround = ground2.transform.position.x - ground1.transform.position.x;
         parallaxSpeedGround = -1.2f;
         endGround = -19.9f;
+    }
+
+    public void DestroyPipes(){
+        
+        foreach (GameObject pipe in pipesPair)
+        {
+            GameObject.Destroy(pipe);
+        }
+        pipesPair.Clear();
+        movePipes = false;
     }
 }

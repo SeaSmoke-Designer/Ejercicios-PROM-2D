@@ -46,7 +46,5 @@ public class Bird : MonoBehaviour
             Debug.Log("Muerte");
             GameObject.Find("GameManager").GetComponent<GameManager>().KillBird();
         }
-            
-
     }
 }
