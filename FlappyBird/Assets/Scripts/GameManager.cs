@@ -16,7 +16,9 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     TextMeshProUGUI startText;
-    private bool isPlaying;
+    
+    [SerializeField]
+    GameObject mainTitle;
 
     private GameObject spawner;
     private GameObject scroller; 
@@ -44,23 +46,16 @@ public class GameManager : MonoBehaviour
         switch (state)
         {
             case States.Prepared:
-                if(Input.GetKeyDown(KeyCode.Space)){
-                startText.enabled = false;
-                bird = Instantiate(birdPrefab);
-                //Debug.Log("Empieza el juego");
-                spawner.GetComponent<Spawner>().SpawnPipe();
-                //isPlaying = true;
-                state = States.Playing;
-                }
+                Prepared();
             break;
             case States.Playing:
-
+                Playing();
             break;
             case States.Pause:
+                Pause();
             break;
             case States.GameOver:
-                scroller.GetComponent<Scroller>().DestroyPipes();
-                spawner.GetComponent<Spawner>().DestroyPipes();
+                GameOver();
             break;
             
         }
@@ -68,6 +63,40 @@ public class GameManager : MonoBehaviour
             
         //}
         
+    }
+
+    void Prepared(){
+        if(Input.GetKeyDown(KeyCode.Space)){
+                startText.enabled = false;
+                
+                bird = Instantiate(birdPrefab);
+                
+                //Debug.Log("Empieza el juego");
+                spawner.GetComponent<Spawner>().SpawnPipe();
+                //isPlaying = true;
+                state = States.Playing;
+                }
+    }
+
+    void Playing() {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            state = States.Pause;
+        }
+    }
+
+    void Pause(){
+        Time.timeScale = 0f;
+        if(Input.GetKeyDown(KeyCode.P)){
+            state = States.Playing;
+            Time.timeScale = 1f;
+            
+        }
+    }
+
+    void GameOver(){
+        scroller.GetComponent<Scroller>().DestroyPipes();
+        spawner.GetComponent<Spawner>().DestroyPipes();
     }
 
     public void KillBird(){
