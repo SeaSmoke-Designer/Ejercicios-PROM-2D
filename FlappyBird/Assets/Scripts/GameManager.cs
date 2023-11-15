@@ -14,8 +14,8 @@ public class GameManager : MonoBehaviour
     private GameObject bird;
 
 
-    [SerializeField]
-    TextMeshProUGUI startText;
+    //[SerializeField]
+    //TextMeshProUGUI startText;
     
     [SerializeField]
     GameObject mainTitle;
@@ -67,29 +67,31 @@ public class GameManager : MonoBehaviour
 
     void Prepared(){
         if(Input.GetKeyDown(KeyCode.Space)){
-                startText.enabled = false;
-                
-                bird = Instantiate(birdPrefab);
+            //startText.enabled = false;
+            mainTitle.SetActive(false);
+            bird = Instantiate(birdPrefab);
                 
                 //Debug.Log("Empieza el juego");
-                spawner.GetComponent<Spawner>().SpawnPipe();
+            spawner.GetComponent<Spawner>().SpawnPipe();
                 //isPlaying = true;
-                state = States.Playing;
-                }
+            state = States.Playing;
+        }
     }
 
     void Playing() {
         if (Input.GetKeyDown(KeyCode.P))
         {
             state = States.Pause;
+            //Debug.Log("jugando");
         }
     }
 
     void Pause(){
-        Time.timeScale = 0f;
+        //Time.timeScale = 0f;
         if(Input.GetKeyDown(KeyCode.P)){
             state = States.Playing;
-            Time.timeScale = 1f;
+            //Debug.Log("Pausa");
+            //Time.timeScale = 1f;
             
         }
     }
@@ -103,4 +105,9 @@ public class GameManager : MonoBehaviour
         GameObject.Destroy(bird);
         state = States.GameOver;
     }
+
+    /*public void QuitPause()
+    {
+        state = States.Playing;
+    }*/
 }
