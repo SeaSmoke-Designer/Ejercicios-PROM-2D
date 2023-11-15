@@ -9,7 +9,7 @@ public class Ball : MonoBehaviour
     public Rigidbody2D rb;
     private Vector3 startPosition;
 
-    private bool isPlaying = false;
+    //private bool isPlaying = false;
 
     public AudioSource audioSource;
     public AudioClip audioClipPaddle;
@@ -20,63 +20,50 @@ public class Ball : MonoBehaviour
     {
         startPosition = transform.position;
         startSpeedBall = speedBall;
-        //Launch();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!isPlaying)
-        {
-            Launch();
-        }
     }
 
-    public void Launch(){
-        if(!GameObject.Find("GameManager").GetComponent<GameManager>().PlayerWin()){
-            if(Input.GetKeyDown(KeyCode.Space)){
-            float x = Random.Range(0,2) == 0 ? -1 : 1;
-            float y = Random.Range(0,2) == 0 ? -1:1;
-            rb.velocity = new Vector2(x*speedBall,y*speedBall);
-            isPlaying = true;
-            }
-            else if(Input.GetKeyDown(KeyCode.R)){
-                GameObject.Find("GameManager").GetComponent<GameManager>().ResetScore();
-            }
-        }else{
-            if(Input.GetKeyDown(KeyCode.C))
-                GameObject.Find("GameManager").GetComponent<GameManager>().ResetScore();
-        }
+    public void Launch()
+    {
+        float x = Random.Range(0, 2) == 0 ? -1 : 1;
+        float y = Random.Range(0, 2) == 0 ? -1 : 1;
+        rb.velocity = new Vector2(x * speedBall, y * speedBall);
     }
 
-    public void Reset(){
+    public void Reset()
+    {
         rb.velocity = Vector2.zero;
         transform.position = startPosition;
-        isPlaying = false;
         speedBall = startSpeedBall;
-        Launch();
     }
     public void AumentarVelocidadBall(bool isPlayer1)
     {
-        float x,y= 0;
-        if(isPlayer1)
+        float x, y = 0;
+        if (isPlayer1)
             x = 1;
         else
             x = -1;
-        
-        if(rb.velocity.y>0)
-            y=1;
-        else if(rb.velocity.y<0)
-            y=-1;
 
-        speedBall+= 0.3f;
-        rb.velocity = new Vector2(x*speedBall,y*speedBall);
+        if (rb.velocity.y > 0)
+            y = 1;
+        else if (rb.velocity.y < 0)
+            y = -1;
+
+        speedBall += 0.3f;
+        rb.velocity = new Vector2(x * speedBall, y * speedBall);
     }
 
-    void OnCollisionEnter2D(Collision2D collision2D){
-        if(collision2D.gameObject.tag.Equals("Player1") || collision2D.gameObject.tag.Equals("Player2")){
+    void OnCollisionEnter2D(Collision2D collision2D)
+    {
+        if (collision2D.gameObject.tag.Equals("Player1") || collision2D.gameObject.tag.Equals("Player2"))
+        {
             audioSource.PlayOneShot(audioClipPaddle);
-        }else if(collision2D.gameObject.tag.Equals("Wall"))
+        }
+        else if (collision2D.gameObject.tag.Equals("Wall"))
             audioSource.PlayOneShot(audioClipWall);
     }
 

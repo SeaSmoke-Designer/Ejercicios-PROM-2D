@@ -5,103 +5,171 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+
+    private enum States { Ready, Playing, GameOver }
+    private States state;
     private int player1Score;
     private int player2Score;
 
     public int maxScore;
 
-    public TextMeshProUGUI scorePLayer1;
-    public TextMeshProUGUI scorePLayer2;
+    public TextMeshProUGUI textScorePlayer1;
+    public TextMeshProUGUI textScorePlayer2;
     public TextMeshProUGUI textPlayerWin;
 
     public TextMeshProUGUI messageWin;
+
+    private GameObject ball;
+    private GameObject paddle1;
+    private GameObject paddle2;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        ball = GameObject.Find("Ball");
+        paddle1 = GameObject.Find("Player1");
+        paddle2 = GameObject.Find("Player2");
+        state = States.Ready;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        switch (state)
+        {
+            case States.Ready:
+                UpdateReady();
+                break;
+            case States.Playing:
+                UpdatePlaying();
+                break;
+            case States.GameOver:
+                UpdateGameOver();
+                break;
+
+        }
     }
 
-    public void Player1Scores(){
+    public void Player1Scores()
+    {
         player1Score++;
         PlayerScore("Player1");
     }
 
-    public void Player2Scores(){
+    public void Player2Scores()
+    {
         player2Score++;
         PlayerScore("Player2");
     }
 
-    private void PlayerScore(string player){
+    private void PlayerScore(string player)
+    {
         RellenarMarcador();
-        string msjPlayer = player == "Player1" ? "Player 1 " : "Player 2";
-        Debug.Log(msjPlayer + " ha marcado gol! Marcador: " + player1Score + " : " + player2Score);
+        //string msjPlayer = player == "Player1" ? "Player 1 " : "Player 2";
+        //Debug.Log(msjPlayer + " ha marcado gol! Marcador: " + player1Score + " : " + player2Score);
         ResetPaddles();
-
         if (player.Equals("Player1"))
         {
-            GameObject.Find("Player2").GetComponent<Paddle>().IncreasePaddle();
+            paddle2.GetComponent<Paddle>().IncreasePaddle();
             if (player1Score > 1)
-                GameObject.Find("Player1").GetComponent<Paddle>().ShortenPaddle();
+                paddle1.GetComponent<Paddle>().ShortenPaddle();
         }
         else
         {
-            GameObject.Find("Player1").GetComponent<Paddle>().IncreasePaddle();
+            paddle1.GetComponent<Paddle>().IncreasePaddle();
             if (player2Score > 1)
-                GameObject.Find("Player2").GetComponent<Paddle>().ShortenPaddle();
+                paddle2.GetComponent<Paddle>().ShortenPaddle();
         }
-            
-
-        GameObject.Find("Ball").GetComponent<Ball>().Reset();
+        ball.GetComponent<Ball>().Reset();
+        state = States.Ready;
         if (PlayerWin())
         {
             textPlayerWin.enabled = true;
             messageWin.enabled = true;
+            state = States.GameOver;
         }
     }
 
     public void ResetPaddles()
     {
-        GameObject.Find("Player1").GetComponent<Paddle>().Reset();
-        GameObject.Find("Player2").GetComponent<Paddle>().Reset();
+        paddle1.GetComponent<Paddle>().Reset();
+        paddle2.GetComponent<Paddle>().Reset();
     }
 
-    public void ResetScore(){
-        if(PlayerWin()){
+    public void ResetScore()
+    {
+        if (PlayerWin())
+        {
             textPlayerWin.enabled = false;
             messageWin.enabled = false;
         }
         player1Score = 0;
         player2Score = 0;
-        GameObject.Find("Player1").GetComponent<Paddle>().ResetSize();
-        GameObject.Find("Player2").GetComponent<Paddle>().ResetSize();
+        paddle1.GetComponent<Paddle>().ResetSize();
+        paddle2.GetComponent<Paddle>().ResetSize();
         RellenarMarcador();
         Debug.Log("Marcador reseteado...");
     }
 
-    public void RellenarMarcador(){
-        scorePLayer1.SetText(player1Score.ToString());
-        scorePLayer2.SetText(player2Score.ToString());
+    public void RellenarMarcador()
+    {
+        textScorePlayer1.SetText(player1Score.ToString());
+        textScorePlayer2.SetText(player2Score.ToString());
     }
 
-    public bool PlayerWin(){
-        if(player1Score==maxScore){
+    public bool PlayerWin()
+    {
+        if (player1Score == maxScore)
+        {
             textPlayerWin.SetText("Player 1 ha ganado!");
             return true;
-        } 
-        else if(player2Score==maxScore){
-            textPlayerWin.SetText("PLayer 2 ha ganado!");
+        }
+        else if (player2Score == maxScore)
+        {
+            textPlayerWin.SetText("Player 2 ha ganado!");
             return true;
         }
         return false;
     }
 
-   
+    void UpdateReady()
+    {
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            ball.GetComponent<Ball>().Launch();
+            state = States.Playing;
+        }
+        else if (Input.GetKeyDown(KeyCode.R))
+        {
+            if (ScoreChanged())
+                ResetScore();
+        }
+    }
+
+    void UpdatePlaying()
+    {
+        if (PlayerWin())
+            state = States.GameOver;
+    }
+
+    void UpdateGameOver()
+    {
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            ResetScore();
+            state = States.Ready;
+        }
+    }
+
+    bool ScoreChanged()
+    {
+        if (player1Score > 0 || player2Score > 0)
+            return true;
+        else
+            return false;
+    }
+
+
 }

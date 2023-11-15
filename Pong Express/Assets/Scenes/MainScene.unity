@@ -1626,8 +1626,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxScore: 3
-  scorePLayer1: {fileID: 157959308}
-  scorePLayer2: {fileID: 1833737505}
+  textScorePlayer1: {fileID: 157959308}
+  textScorePlayer2: {fileID: 1833737505}
   textPlayerWin: {fileID: 564956324}
   messageWin: {fileID: 2106501024}
 --- !u!4 &1431406813

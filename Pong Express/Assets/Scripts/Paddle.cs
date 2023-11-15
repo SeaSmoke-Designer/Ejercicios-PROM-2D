@@ -11,7 +11,6 @@ public class Paddle : MonoBehaviour
     private Vector3 startPosition;
     private Vector3 startScale;
 
-
     void Start(){
         startPosition = transform.position;
         startScale = transform.localScale;
@@ -52,9 +51,9 @@ public class Paddle : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision2D){
         if(collision2D.gameObject.tag.Equals("Ball")){
-            if(gameObject.tag.Equals("Player1"))
+            if(gameObject.CompareTag("Player1"))
                 collision2D.gameObject.GetComponent<Ball>().AumentarVelocidadBall(true);
-            else if(gameObject.tag.Equals("Player2"))
+            else if(gameObject.CompareTag("Player2"))
                 collision2D.gameObject.GetComponent<Ball>().AumentarVelocidadBall(false);
             
         }
