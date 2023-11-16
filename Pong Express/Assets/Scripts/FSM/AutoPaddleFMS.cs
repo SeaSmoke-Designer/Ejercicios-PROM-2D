@@ -27,8 +27,6 @@ public class AutoPaddleFMS
     {
         CurrentState = state;
         state.Enter();
-
-
     }
 
     // exit this state and enter another
@@ -37,8 +35,6 @@ public class AutoPaddleFMS
         CurrentState.Exit();
         CurrentState = nextState;
         nextState.Enter();
-
-
     }
 
     // allow the StateMachine to update this state
