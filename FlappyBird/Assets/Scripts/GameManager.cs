@@ -20,6 +20,20 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     GameObject mainTitle;
 
+    [SerializeField]
+    GameObject deadTitle;
+
+    [SerializeField]
+    GameObject scoreText;
+
+    [SerializeField]
+    TextMeshProUGUI scorePlayingText;
+
+    [SerializeField]
+    TextMeshProUGUI scoreFinishText;
+
+    private int score;
+
     private GameObject spawner;
     private GameObject scroller; 
 
@@ -28,6 +42,7 @@ public class GameManager : MonoBehaviour
     {
         //isPlaying = false;
         state = States.Prepared;
+        deadTitle.SetActive(false);
         spawner = GameObject.Find("Spawner");
         scroller = GameObject.Find("Scroller");
     }
@@ -59,21 +74,14 @@ public class GameManager : MonoBehaviour
             break;
             
         }
-        //if(state == States.Prepared){
-            
-        //}
         
     }
 
     void Prepared(){
         if(Input.GetKeyDown(KeyCode.Space)){
-            //startText.enabled = false;
             mainTitle.SetActive(false);
             bird = Instantiate(birdPrefab);
-                
-                //Debug.Log("Empieza el juego");
             spawner.GetComponent<Spawner>().SpawnPipe();
-                //isPlaying = true;
             state = States.Playing;
         }
     }
@@ -82,28 +90,40 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.P))
         {
             state = States.Pause;
-            //Debug.Log("jugando");
         }
     }
 
     void Pause(){
-        //Time.timeScale = 0f;
         if(Input.GetKeyDown(KeyCode.P)){
             state = States.Playing;
-            //Debug.Log("Pausa");
-            //Time.timeScale = 1f;
-            
         }
     }
 
     void GameOver(){
+        deadTitle.SetActive(true);
+        scoreText.SetActive(false);
         scroller.GetComponent<Scroller>().DestroyPipes();
         spawner.GetComponent<Spawner>().DestroyPipes();
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            state = States.Playing;
+            deadTitle.SetActive(false);
+            scoreText.SetActive(true);
+            bird = Instantiate(birdPrefab);
+            spawner.GetComponent<Spawner>().SpawnPipe();
+            
+        }
     }
 
     public void KillBird(){
         GameObject.Destroy(bird);
         state = States.GameOver;
+    }
+
+    public void Point()
+    {
+        score++;
+        scorePlayingText.SetText(score.ToString());
     }
 
     /*public void QuitPause()
