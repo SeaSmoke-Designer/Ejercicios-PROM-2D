@@ -12,6 +12,7 @@ public class Spawner : MonoBehaviour
 
     private GameObject scroller;
     private GameObject pipe;
+    private GameObject manager;
 
     private float maxTopPipe = 1.77f;
     private float minBottomPipe = -4.75f;
@@ -26,6 +27,7 @@ public class Spawner : MonoBehaviour
     {
         pipesPair = new List<GameObject>();
         scroller =  GameObject.Find("Scroller");
+        manager = GameObject.Find("GameManager");
         //SpawnPipe();
     }
 
@@ -85,9 +87,18 @@ public class Spawner : MonoBehaviour
             GameObject.Destroy(pipe);
         }
         pipesPair.Clear();
+        firstPipe = true;
     }
 
     public float AlturaRandom(){
         return Random.Range(minBottomPipe,maxTopPipe);
+    }
+
+    void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Point"))
+        {
+            manager.GetComponent<GameManager>().Point();
+        }
     }
 }

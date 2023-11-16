@@ -14,11 +14,13 @@ public class Bird : MonoBehaviour
     private bool isJump;
 
     private float movement;
+
+    private GameObject manager;
     
     // Start is called before the first frame update
     void Start()
     {
-        
+        manager = GameObject.Find("GameManager");
     }
 
     // Update is called once per frame
@@ -42,9 +44,9 @@ public class Bird : MonoBehaviour
 
 
     void OnTriggerEnter2D(Collider2D collider2D){
-        if(collider2D.gameObject.tag.Equals("Dead")){
+        if(collider2D.gameObject.CompareTag("Dead")){
             Debug.Log("Muerte");
-            GameObject.Find("GameManager").GetComponent<GameManager>().KillBird();
+            manager.GetComponent<GameManager>().KillBird();
         }
     }
 }
