@@ -8,10 +8,11 @@ public class Paddle : MonoBehaviour
     public float speed;
     public Rigidbody2D rb;
     private float movement;
-    private Vector3 startPosition;
+    public Vector3 startPosition { get; private set; }
     private Vector3 startScale;
 
-    void Start(){
+    protected void Start()
+    {
         startPosition = transform.position;
         startScale = transform.localScale;
     }
@@ -19,22 +20,23 @@ public class Paddle : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(isPlayer1)
+        if (isPlayer1)
             movement = Input.GetAxisRaw("Vertical");
         else
             movement = Input.GetAxisRaw("Vertical2");
 
-        rb.velocity = new Vector2(rb.velocity.x,movement*speed);
+        rb.velocity = new Vector2(rb.velocity.x, movement * speed);
     }
 
-    public void Reset(){
+    public void Reset()
+    {
         rb.velocity = Vector2.zero;
         transform.position = startPosition;
     }
 
     public void IncreasePaddle()
     {
-        transform.localScale += new Vector3(0, 0.5f,0);
+        transform.localScale += new Vector3(0, 0.5f, 0);
     }
     //Arreglar esto
     public void ShortenPaddle()
@@ -49,13 +51,15 @@ public class Paddle : MonoBehaviour
         transform.localScale = startScale;
     }
 
-    void OnCollisionEnter2D(Collision2D collision2D){
-        if(collision2D.gameObject.tag.Equals("Ball")){
-            if(gameObject.CompareTag("Player1"))
+    void OnCollisionEnter2D(Collision2D collision2D)
+    {
+        if (collision2D.gameObject.tag.Equals("Ball"))
+        {
+            if (gameObject.CompareTag("Player1"))
                 collision2D.gameObject.GetComponent<Ball>().AumentarVelocidadBall(true);
-            else if(gameObject.CompareTag("Player2"))
+            else if (gameObject.CompareTag("Player2"))
                 collision2D.gameObject.GetComponent<Ball>().AumentarVelocidadBall(false);
-            
+
         }
     }
 }

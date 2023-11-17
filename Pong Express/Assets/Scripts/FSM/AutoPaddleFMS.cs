@@ -38,7 +38,7 @@ public class AutoPaddleFMS
     }
 
     // allow the StateMachine to update this state
-    public void FixedUpdate()
+    public void Update()
     {
         if (CurrentState != null)
         {

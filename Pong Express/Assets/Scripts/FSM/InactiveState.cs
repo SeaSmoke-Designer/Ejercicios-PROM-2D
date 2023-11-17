@@ -17,12 +17,33 @@ public class InactiveState : IState
     // Start is called before the first frame update
 
     // Update is called once per frame
-    void Update()
+    public void Update()
     {
-        if (ball.transform.position.x > 0)
+        float diferencia = autoPaddle.startPosition.y - autoPaddle.transform.position.y;
+        if (ball.velocity.x > 0)
         {
             autoPaddle.autoPaddleFMS.TransitionTo(autoPaddle.autoPaddleFMS.activeState);
         }
+
+
+        if (autoPaddle.startPosition.y == autoPaddle.transform.position.y)
+        {
+            autoPaddle.rb.velocity = new Vector2(autoPaddle.rb.velocity.x, autoPaddle.speed * 0);
+        }
+        else
+        {
+            if (diferencia < 0)
+            {
+                autoPaddle.rb.velocity = new Vector2(autoPaddle.rb.velocity.x, autoPaddle.speed * -1);
+            }
+            else
+            {
+                autoPaddle.rb.velocity = new Vector2(autoPaddle.rb.velocity.x, autoPaddle.speed * 1);
+            }
+        }
+
+
+
     }
 
 
