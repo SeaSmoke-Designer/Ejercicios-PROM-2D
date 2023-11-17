@@ -9,14 +9,14 @@ public class PauseManager : MonoBehaviour
     [SerializeField]
     GameObject textPause;
 
+    [SerializeField]
+    AudioClip pauseAudio;
 
-    //private GameObject manager;
     // Start is called before the first frame update
     void Start()
     {
         isPause = false;
         textPause.SetActive(false);
-        //manager = GameObject.Find("GameManager");
     }
 
     // Update is called once per frame
@@ -34,6 +34,7 @@ public class PauseManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.P) || isPause)
         {
             Time.timeScale = 0f;
+            AudioManager.Instance.PlayClip(pauseAudio);
             isPause = true;
             textPause.SetActive(true);
         }
@@ -44,9 +45,9 @@ public class PauseManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.P))
         {
             Time.timeScale = 1f;
+            AudioManager.Instance.PlayClip(pauseAudio);
             isPause = false;
             textPause.SetActive(false);
-            //manager.GetComponent<GameManager>().QuitPause();
         }
     }
 }

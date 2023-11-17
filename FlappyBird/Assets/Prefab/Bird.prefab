@@ -173,5 +173,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jumpSpeed: 220
   rb: {fileID: 5404164760869997825}
-  audioSource: {fileID: 1119887703171844233, guid: d58b55818e6af644793274f89929d2fa, type: 3}
   jumpAudio: {fileID: 8300000, guid: 26442a9def24f2a7eb8a4e2a027524d3, type: 3}
+  scoreAudio: {fileID: 8300000, guid: c1e6fb446a7fd7f11a7e44499d2d2932, type: 3}
+  explosionAudio: {fileID: 8300000, guid: a6d936ce8b609ef2ea83c0ebd4aa1b3a, type: 3}

@@ -18,17 +18,16 @@ public class Spawner : MonoBehaviour
     private float minBottomPipe = -4.75f;
 
     private bool firstPipe = true;
-    private float posicionInicio= 14.74f;
+    private float posicionInicio = 14.74f;
     private float pipeOut = -4.67f;
     private float diferencia = 5;
-    
+
     // Start is called before the first frame update
     void Start()
     {
         pipesPair = new List<GameObject>();
-        scroller =  GameObject.Find("Scroller");
+        scroller = GameObject.Find("Scroller");
         manager = GameObject.Find("GameManager");
-        //SpawnPipe();
     }
 
     // Update is called once per frame
@@ -36,20 +35,15 @@ public class Spawner : MonoBehaviour
     {
         for (int i = 0; i < pipesPair.Count; i++)
         {
-            if(pipesPair[i].transform.position.x <= pipeOut){
+            if (pipesPair[i].transform.position.x <= pipeOut)
+            {
                 GameObject pipe = pipesPair[i];
-                pipe.transform.position = new Vector2(pipesPair.Last().transform.position.x+diferencia,AlturaRandom());
+                pipe.transform.position = new Vector2(pipesPair.Last().transform.position.x + diferencia, AlturaRandom());
                 pipesPair.Remove(pipesPair[i]);
                 pipesPair.Add(pipe);
             }
         }
 
-        /*foreach (GameObject pipe in pipesPair)
-        {
-            if(pipe.transform.position.x <= pipeOut){
-                pipe.transform.position = new Vector2(pipesPair.Last().transform.position.x+diferencia, AlturaRandom());
-            }
-        }*/
     }
 
     public void SpawnPipe()
@@ -57,28 +51,21 @@ public class Spawner : MonoBehaviour
         for (int i = 0; i < 5; i++)
         {
             pipe = Instantiate(pipePrefab);
-            if(firstPipe){
-                pipe.transform.position = new Vector2(posicionInicio,AlturaRandom());
+            if (firstPipe)
+            {
+                pipe.transform.position = new Vector2(posicionInicio, AlturaRandom());
                 firstPipe = false;
-            }else{
-                pipe.transform.position = new Vector2(pipesPair.Last().transform.position.x+diferencia,AlturaRandom());
+            }
+            else
+            {
+                pipe.transform.position = new Vector2(pipesPair.Last().transform.position.x + diferencia, AlturaRandom());
             }
             pipesPair.Add(pipe);
-            
+
         }
         scroller.GetComponent<Scroller>().PipesMove(pipesPair);
-        //pipe = Instantiate(pipePrefab);
-        
-        //pipesPair.Add(pipe);
-        
-    }
 
-    /*public void StartMove(){
-        foreach (GameObject pipe in pipesPair)
-        {
-            //scroller.GetComponent<Scroller>().PipesMove(pipe);
-        }
-    }*/
+    }
 
     public void DestroyPipes()
     {
@@ -90,9 +77,10 @@ public class Spawner : MonoBehaviour
         firstPipe = true;
     }
 
-    public float AlturaRandom(){
-        return Random.Range(minBottomPipe,maxTopPipe);
+    public float AlturaRandom()
+    {
+        return Random.Range(minBottomPipe, maxTopPipe);
     }
 
-    
+
 }

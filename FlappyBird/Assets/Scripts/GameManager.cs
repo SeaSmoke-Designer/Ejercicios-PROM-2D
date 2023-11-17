@@ -6,17 +6,13 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    private enum States {Playing, Pause, Prepared, GameOver};
+    private enum States { Playing, Pause, Prepared, GameOver };
     private States state;
 
     [SerializeField]
     GameObject birdPrefab;
     private GameObject bird;
 
-
-    //[SerializeField]
-    //TextMeshProUGUI startText;
-    
     [SerializeField]
     GameObject mainTitle;
 
@@ -35,12 +31,11 @@ public class GameManager : MonoBehaviour
     private int score;
 
     private GameObject spawner;
-    private GameObject scroller; 
+    private GameObject scroller;
 
     // Start is called before the first frame update
     void Start()
     {
-        //isPlaying = false;
         state = States.Prepared;
         deadTitle.SetActive(false);
         scoreText.SetActive(false);
@@ -55,23 +50,25 @@ public class GameManager : MonoBehaviour
         {
             case States.Prepared:
                 Prepared();
-            break;
+                break;
             case States.Playing:
                 Playing();
-            break;
+                break;
             case States.Pause:
                 Pause();
-            break;
+                break;
             case States.GameOver:
                 GameOver();
-            break;
-            
+                break;
+
         }
-        
+
     }
 
-    void Prepared(){
-        if(Input.GetKeyDown(KeyCode.Space)){
+    void Prepared()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
             mainTitle.SetActive(false);
             scoreText.SetActive(true);
             bird = Instantiate(birdPrefab);
@@ -80,20 +77,24 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void Playing() {
+    void Playing()
+    {
         if (Input.GetKeyDown(KeyCode.P))
         {
             state = States.Pause;
         }
     }
 
-    void Pause(){
-        if(Input.GetKeyDown(KeyCode.P)){
+    void Pause()
+    {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
             state = States.Playing;
         }
     }
 
-    void GameOver(){
+    void GameOver()
+    {
         deadTitle.SetActive(true);
         scoreText.SetActive(false);
         scroller.GetComponent<Scroller>().DestroyPipes();
@@ -111,7 +112,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void KillBird(){
+    public void KillBird()
+    {
         GameObject.Destroy(bird);
         state = States.GameOver;
     }
@@ -122,8 +124,5 @@ public class GameManager : MonoBehaviour
         scorePlayingText.SetText(score.ToString());
     }
 
-    /*public void QuitPause()
-    {
-        state = States.Playing;
-    }*/
+
 }

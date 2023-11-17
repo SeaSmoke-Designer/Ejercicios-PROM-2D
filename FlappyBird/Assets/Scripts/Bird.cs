@@ -18,10 +18,14 @@ public class Bird : MonoBehaviour
     private GameObject manager;
 
     [SerializeField]
-    AudioSource audioSource;
+    AudioClip jumpAudio;
 
     [SerializeField]
-    AudioClip jumpAudio;
+    AudioClip scoreAudio;
+
+    [SerializeField]
+    AudioClip explosionAudio;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -31,7 +35,8 @@ public class Bird : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Space)){
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
             isJump = true;
             //movement = Input.GetAxisRaw("Vertical");
             //rb.velocity = new Vector2(rb.velocity.x,movement*jumpSpeed);
@@ -40,25 +45,32 @@ public class Bird : MonoBehaviour
 
     void FixedUpdate()
     {
-        if(isJump){
-            audioSource.PlayOneShot(jumpAudio);
+        if (isJump)
+        {
+            AudioManager.Instance.PlayClip(jumpAudio);
             movement = Input.GetAxisRaw("Vertical");
-            rb.velocity = new Vector2(rb.velocity.x,movement*jumpSpeed*Time.fixedDeltaTime);
+            rb.velocity = new Vector2(rb.velocity.x, movement * jumpSpeed * Time.fixedDeltaTime);
             isJump = false;
         }
     }
 
 
-    void OnTriggerEnter2D(Collider2D collider2D){
-        if(collider2D.gameObject.CompareTag("Dead")){
-            Debug.Log("Muerte");
+    void OnTriggerEnter2D(Collider2D collider2D)
+    {
+        if (collider2D.gameObject.CompareTag("Dead"))
+        {
+            AudioManager.Instance.PlayClip(explosionAudio);
             manager.GetComponent<GameManager>().KillBird();
         }
     }
 
     void OnTriggerExit2D(Collider2D collision)
     {
-         if (collision.gameObject.CompareTag("Point"))
+        if (collision.gameObject.CompareTag("Point"))
+        {
             manager.GetComponent<GameManager>().Point();
+            AudioManager.Instance.PlayClip(scoreAudio);
+        }
+
     }
 }
