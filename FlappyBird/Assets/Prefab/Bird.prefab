@@ -75,7 +75,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: 3632b299ec8e64c1faed2d3430b5321f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -173,3 +173,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jumpSpeed: 220
   rb: {fileID: 5404164760869997825}
+  audioSource: {fileID: 1119887703171844233, guid: d58b55818e6af644793274f89929d2fa, type: 3}
+  jumpAudio: {fileID: 8300000, guid: 26442a9def24f2a7eb8a4e2a027524d3, type: 3}

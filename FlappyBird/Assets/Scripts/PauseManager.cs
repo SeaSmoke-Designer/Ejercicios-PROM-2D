@@ -8,11 +8,14 @@ public class PauseManager : MonoBehaviour
 
     [SerializeField]
     GameObject textPause;
+
+
     //private GameObject manager;
     // Start is called before the first frame update
     void Start()
     {
         isPause = false;
+        textPause.SetActive(false);
         //manager = GameObject.Find("GameManager");
     }
 
@@ -32,6 +35,7 @@ public class PauseManager : MonoBehaviour
         {
             Time.timeScale = 0f;
             isPause = true;
+            textPause.SetActive(true);
         }
     }
 
@@ -41,6 +45,7 @@ public class PauseManager : MonoBehaviour
         {
             Time.timeScale = 1f;
             isPause = false;
+            textPause.SetActive(false);
             //manager.GetComponent<GameManager>().QuitPause();
         }
     }

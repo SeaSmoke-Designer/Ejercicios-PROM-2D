@@ -16,7 +16,12 @@ public class Bird : MonoBehaviour
     private float movement;
 
     private GameObject manager;
-    
+
+    [SerializeField]
+    AudioSource audioSource;
+
+    [SerializeField]
+    AudioClip jumpAudio;
     // Start is called before the first frame update
     void Start()
     {
@@ -36,6 +41,7 @@ public class Bird : MonoBehaviour
     void FixedUpdate()
     {
         if(isJump){
+            audioSource.PlayOneShot(jumpAudio);
             movement = Input.GetAxisRaw("Vertical");
             rb.velocity = new Vector2(rb.velocity.x,movement*jumpSpeed*Time.fixedDeltaTime);
             isJump = false;
@@ -48,5 +54,11 @@ public class Bird : MonoBehaviour
             Debug.Log("Muerte");
             manager.GetComponent<GameManager>().KillBird();
         }
+    }
+
+    void OnTriggerExit2D(Collider2D collision)
+    {
+         if (collision.gameObject.CompareTag("Point"))
+            manager.GetComponent<GameManager>().Point();
     }
 }

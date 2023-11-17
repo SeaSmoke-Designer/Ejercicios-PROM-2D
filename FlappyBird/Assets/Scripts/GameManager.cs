@@ -43,6 +43,7 @@ public class GameManager : MonoBehaviour
         //isPlaying = false;
         state = States.Prepared;
         deadTitle.SetActive(false);
+        scoreText.SetActive(false);
         spawner = GameObject.Find("Spawner");
         scroller = GameObject.Find("Scroller");
     }
@@ -50,14 +51,6 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        /*if(!isPlaying){
-            if(Input.GetKeyDown(KeyCode.Space)){
-                startText.enabled = false;
-                bird = Instantiate(birdPrefab);
-                Debug.Log("Empieza el juego");
-                isPlaying = true;
-        }
-        }*/
         switch (state)
         {
             case States.Prepared:
@@ -80,6 +73,7 @@ public class GameManager : MonoBehaviour
     void Prepared(){
         if(Input.GetKeyDown(KeyCode.Space)){
             mainTitle.SetActive(false);
+            scoreText.SetActive(true);
             bird = Instantiate(birdPrefab);
             spawner.GetComponent<Spawner>().SpawnPipe();
             state = States.Playing;
@@ -104,6 +98,7 @@ public class GameManager : MonoBehaviour
         scoreText.SetActive(false);
         scroller.GetComponent<Scroller>().DestroyPipes();
         spawner.GetComponent<Spawner>().DestroyPipes();
+        scoreFinishText.SetText($"Has conseguido {score} puntos");
         if (Input.GetKeyDown(KeyCode.Space))
         {
             state = States.Playing;
@@ -111,7 +106,8 @@ public class GameManager : MonoBehaviour
             scoreText.SetActive(true);
             bird = Instantiate(birdPrefab);
             spawner.GetComponent<Spawner>().SpawnPipe();
-            
+            score = 0;
+            scorePlayingText.SetText(score.ToString());
         }
     }
 

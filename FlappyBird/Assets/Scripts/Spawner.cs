@@ -94,11 +94,5 @@ public class Spawner : MonoBehaviour
         return Random.Range(minBottomPipe,maxTopPipe);
     }
 
-    void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.gameObject.CompareTag("Point"))
-        {
-            manager.GetComponent<GameManager>().Point();
-        }
-    }
+    
 }
