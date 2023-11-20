@@ -18,13 +18,12 @@ public class InactiveState : IState
 
     // Update is called once per frame
     public void Update()
-    {
-        float diferencia = autoPaddle.startPosition.y - autoPaddle.transform.position.y;
+    { 
         if (ball.velocity.x > 0)
         {
-            autoPaddle.autoPaddleFMS.TransitionTo(autoPaddle.autoPaddleFMS.activeState);
+            autoPaddle.autoPaddleFSM.TransitionTo(autoPaddle.autoPaddleFSM.activeState);
         }
-
+        float diferencia = autoPaddle.startPosition.y - autoPaddle.transform.position.y;
 
         if (autoPaddle.startPosition.y == autoPaddle.transform.position.y)
         {
@@ -35,10 +34,18 @@ public class InactiveState : IState
             if (diferencia < 0)
             {
                 autoPaddle.rb.velocity = new Vector2(autoPaddle.rb.velocity.x, autoPaddle.speed * -1);
+                if (autoPaddle.transform.position.y <= autoPaddle.startPosition.y)
+                {
+                    autoPaddle.rb.velocity = new Vector2(autoPaddle.rb.velocity.x, autoPaddle.speed * 0);
+                }
             }
             else
             {
                 autoPaddle.rb.velocity = new Vector2(autoPaddle.rb.velocity.x, autoPaddle.speed * 1);
+                if (autoPaddle.transform.position.y >= -0.1f)
+                {
+                    autoPaddle.rb.velocity = new Vector2(autoPaddle.rb.velocity.x, autoPaddle.speed * 0);
+                }
             }
         }
 

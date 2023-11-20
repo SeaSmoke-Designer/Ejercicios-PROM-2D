@@ -21,7 +21,7 @@ public class ActiveState : IState
     {
         if (ball.velocity.x < 0)
         {
-            autoPaddle.autoPaddleFMS.TransitionTo(autoPaddle.autoPaddleFMS.inactiveState);
+            autoPaddle.autoPaddleFSM.TransitionTo(autoPaddle.autoPaddleFSM.inactiveState);
         }
         float diferencia = ball.transform.position.y - autoPaddle.transform.position.y;
 

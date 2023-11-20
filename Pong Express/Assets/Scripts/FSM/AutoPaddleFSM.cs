@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [SerializeField]
-public class AutoPaddleFMS
+public class AutoPaddleFSM
 {
     public IState CurrentState { get; private set; }
 
@@ -15,7 +15,7 @@ public class AutoPaddleFMS
     //public event Action<IState> stateChanged;
 
     // pass in necessary parameters into constructor 
-    public AutoPaddleFMS(AutoPaddle paddle)
+    public AutoPaddleFSM(AutoPaddle paddle)
     {
         // create an instance for each state and pass in PlayerController
         this.activeState = new ActiveState(paddle);

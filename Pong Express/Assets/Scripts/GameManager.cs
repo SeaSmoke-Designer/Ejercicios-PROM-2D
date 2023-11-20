@@ -6,7 +6,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
 
-    private enum States { Ready, Playing, GameOver }
+    private enum States { Ready, Playing, GameOver, SelectMode }
     private States state;
     private int player1Score;
     private int player2Score;
@@ -23,6 +23,9 @@ public class GameManager : MonoBehaviour
     private GameObject paddle1;
     private GameObject paddle2;
 
+    [SerializeField]
+    private GameObject selectModeText;
+
 
     // Start is called before the first frame update
     void Start()
@@ -30,7 +33,9 @@ public class GameManager : MonoBehaviour
         ball = GameObject.Find("Ball");
         paddle1 = GameObject.Find("Player1");
         paddle2 = GameObject.Find("Player2");
-        state = States.Ready;
+        state = States.SelectMode;
+        //paddle2.SetActive(false);
+        //paddle2.GetComponent<Paddle>().enabled = false;
     }
 
     // Update is called once per frame
@@ -38,6 +43,9 @@ public class GameManager : MonoBehaviour
     {
         switch (state)
         {
+            case States.SelectMode:
+                UpdateSelectMode();
+                break;
             case States.Ready:
                 UpdateReady();
                 break;
@@ -133,6 +141,24 @@ public class GameManager : MonoBehaviour
         return false;
     }
 
+    void UpdateSelectMode()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            paddle2.GetComponent<Paddle>().enabled = true;
+            paddle2.GetComponent<AutoPaddle>().enabled = false;
+            selectModeText.SetActive(false);
+            state = States.Ready;
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            paddle2.GetComponent<Paddle>().enabled = false;
+            paddle2.GetComponent<AutoPaddle>().enabled = true;
+            selectModeText.SetActive(false);
+            state = States.Ready;
+        }
+    }
+
     void UpdateReady()
     {
 
@@ -159,7 +185,8 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.C))
         {
             ResetScore();
-            state = States.Ready;
+            selectModeText.SetActive(true);
+            state = States.SelectMode;
         }
     }
 

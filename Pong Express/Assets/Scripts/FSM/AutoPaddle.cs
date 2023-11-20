@@ -4,18 +4,18 @@ using UnityEngine;
 
 public class AutoPaddle : Paddle
 {
-    public AutoPaddleFMS autoPaddleFMS { get; private set; }
+    public AutoPaddleFSM autoPaddleFSM { get; private set; }
     // Start is called before the first frame update
     new void Start()
     {
         base.Start();
-        autoPaddleFMS = new AutoPaddleFMS(this);
-        autoPaddleFMS.Initialize(autoPaddleFMS.inactiveState);
+        autoPaddleFSM = new AutoPaddleFSM(this);
+        autoPaddleFSM.Initialize(autoPaddleFSM.inactiveState);
     }
 
     void Update()
     {
-        autoPaddleFMS.Update();
+        autoPaddleFSM.Update();
     }
 
 }
