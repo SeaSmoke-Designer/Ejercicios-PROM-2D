@@ -145,7 +145,7 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            paddle2.GetComponent<Paddle>().enabled = true;
+            //paddle2.GetComponent<Paddle>().enabled = true;
             paddle2.GetComponent<AutoPaddle>().enabled = false;
             selectModeText.SetActive(false);
             state = States.Ready;
