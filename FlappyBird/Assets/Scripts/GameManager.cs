@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    private enum States { Playing, Pause, Prepared, GameOver };
+    private enum States { Playing, Pause, Prepared, GameOver};
     private States state;
 
     [SerializeField]
@@ -60,9 +60,7 @@ public class GameManager : MonoBehaviour
             case States.GameOver:
                 GameOver();
                 break;
-
         }
-
     }
 
     void Prepared()
@@ -122,6 +120,14 @@ public class GameManager : MonoBehaviour
     {
         score++;
         scorePlayingText.SetText(score.ToString());
+    }
+
+    public bool IsPlaying()
+    {
+        if (state == States.Playing)
+            return true;
+        else
+            return false;
     }
 
 

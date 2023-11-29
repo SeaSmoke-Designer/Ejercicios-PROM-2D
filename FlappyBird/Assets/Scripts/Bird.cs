@@ -13,7 +13,7 @@ public class Bird : MonoBehaviour
 
     private bool isJump;
 
-    private float movement;
+    //private float movement;
 
     private GameObject manager;
 
@@ -36,22 +36,14 @@ public class Bird : MonoBehaviour
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
-        {
             isJump = true;
-            //movement = Input.GetAxisRaw("Vertical");
-            //rb.velocity = new Vector2(rb.velocity.x,movement*jumpSpeed);
-        }
+        
     }
 
     void FixedUpdate()
     {
         if (isJump)
-        {
-            AudioManager.Instance.PlayClip(jumpAudio);
-            movement = Input.GetAxisRaw("Vertical");
-            rb.velocity = new Vector2(rb.velocity.x, movement * jumpSpeed * Time.fixedDeltaTime);
-            isJump = false;
-        }
+            Jump();
     }
 
 
@@ -72,5 +64,13 @@ public class Bird : MonoBehaviour
             AudioManager.Instance.PlayClip(scoreAudio);
         }
 
+    }
+
+    void Jump()
+    {
+        AudioManager.Instance.PlayClip(jumpAudio);
+        //movement = Input.GetAxisRaw("Vertical");
+        rb.velocity = new Vector2(rb.velocity.x, Input.GetAxisRaw("Vertical") * jumpSpeed * Time.fixedDeltaTime);
+        isJump = false;
     }
 }
