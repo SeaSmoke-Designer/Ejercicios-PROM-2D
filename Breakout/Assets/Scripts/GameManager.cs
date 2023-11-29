@@ -5,14 +5,21 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject ball;
+    //[SerializeField]
+    //private GameObject ball;
     private enum States { Ready, Playing, GameOver };
     private States state;
+
+    [SerializeField]
+    private GameObject ballPrefab;
+    private GameObject ball;
+    private int vidas;
     void Start()
     {
         state = States.Ready;
-        ball = GameObject.Find("Ball");
+        ball = Instantiate(ballPrefab);
+        //ball = GameObject.Find("Ball");
+        vidas = 3;
     }
 
 
@@ -27,8 +34,10 @@ public class GameManager : MonoBehaviour
                 UpdateReady();
                 break;
             case States.Playing:
+                UpdatePlaying();
                 break;
             case States.GameOver:
+                UpdateGameOver();
                 break;
         }
 
@@ -41,6 +50,30 @@ public class GameManager : MonoBehaviour
         {
             ball.GetComponent<Ball>().Launch();
             state = States.Playing;
+        }
+    }
+
+    void UpdatePlaying()
+    {
+        if (vidas == 0)
+        {
+            state = States.GameOver;
+        }
+    }
+
+    void UpdateGameOver()
+    {
+
+    }
+
+    public void ResetBall()
+    {
+        Destroy(ball);
+        if (vidas > 0)
+        {
+            vidas -= 1;
+            ball = Instantiate(ballPrefab);
+            state = States.Ready;
         }
     }
 }

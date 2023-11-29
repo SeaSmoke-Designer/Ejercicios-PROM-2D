@@ -11,13 +11,18 @@ public class Ball : MonoBehaviour
     private Rigidbody2D rb;
     private Vector3 startPosition;
 
-    bool isLaunch;
+    //private GameObject ballPrefab;
+    //private GameObject ball;
+
+    private GameManager gameManager;
+    private bool isLaunch;
 
     private GameObject paddle;
     void Start()
     {
         startPosition = transform.position;
         paddle = GameObject.Find("Paddle");
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         isLaunch = false;
     }
 
@@ -36,6 +41,19 @@ public class Ball : MonoBehaviour
         float y = 1;
         rb.velocity = new Vector2(x * speedBall, y * speedBall);
     }
+
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("Dead"))
+        {
+            //Destroy(gameObject);
+            gameManager.ResetBall();
+            isLaunch = false;
+            //ball.transform.position = startPosition;
+        }
+
+    }
+
 
 
 }

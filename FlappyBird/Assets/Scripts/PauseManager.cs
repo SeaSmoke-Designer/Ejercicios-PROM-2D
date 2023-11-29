@@ -11,28 +11,28 @@ public class PauseManager : MonoBehaviour
 
     [SerializeField]
     AudioClip pauseAudio;
-    //private GameManager gameManager;
+    private GameManager gameManager;
 
     // Start is called before the first frame update
     void Start()
     {
         isPause = false;
         textPause.SetActive(false);
-        //gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        //if (gameManager.IsPlaying())
-        //{
+        if (gameManager.IsPlaying())
+        {
             if (!isPause)
                 Pause();
             else
                 QuitPause();
-        //}
+        }
     }
-
+    //Logica duplicada - si detecto la tecla tiene que ser en un solo sitio o en el GameManager o en el PauseManager
     void Pause()
     {
         if (Input.GetKeyDown(KeyCode.P))

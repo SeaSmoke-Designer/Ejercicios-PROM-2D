@@ -6,8 +6,8 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    private enum States { Playing, Pause, Prepared, GameOver};
-    private States state;
+    private enum eStates { Playing, Pause, Prepared, GameOver };
+    private eStates state;
 
     [SerializeField]
     GameObject birdPrefab;
@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        state = States.Prepared;
+        state = eStates.Prepared;
         deadTitle.SetActive(false);
         scoreText.SetActive(false);
         spawner = GameObject.Find("Spawner");
@@ -48,16 +48,16 @@ public class GameManager : MonoBehaviour
     {
         switch (state)
         {
-            case States.Prepared:
+            case eStates.Prepared:
                 Prepared();
                 break;
-            case States.Playing:
+            case eStates.Playing:
                 Playing();
                 break;
-            case States.Pause:
+            case eStates.Pause:
                 Pause();
                 break;
-            case States.GameOver:
+            case eStates.GameOver:
                 GameOver();
                 break;
         }
@@ -71,7 +71,7 @@ public class GameManager : MonoBehaviour
             scoreText.SetActive(true);
             bird = Instantiate(birdPrefab);
             spawner.GetComponent<Spawner>().SpawnPipe();
-            state = States.Playing;
+            state = eStates.Playing;
         }
     }
 
@@ -79,7 +79,7 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.P))
         {
-            state = States.Pause;
+            state = eStates.Pause;
         }
     }
 
@@ -87,7 +87,7 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.P))
         {
-            state = States.Playing;
+            state = eStates.Playing;
         }
     }
 
@@ -100,7 +100,7 @@ public class GameManager : MonoBehaviour
         scoreFinishText.SetText($"Has conseguido {score} puntos");
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            state = States.Playing;
+            state = eStates.Playing;
             deadTitle.SetActive(false);
             scoreText.SetActive(true);
             bird = Instantiate(birdPrefab);
@@ -113,7 +113,7 @@ public class GameManager : MonoBehaviour
     public void KillBird()
     {
         GameObject.Destroy(bird);
-        state = States.GameOver;
+        state = eStates.GameOver;
     }
 
     public void Point()
@@ -124,7 +124,7 @@ public class GameManager : MonoBehaviour
 
     public bool IsPlaying()
     {
-        if (state == States.Playing)
+        if (state == eStates.Playing)
             return true;
         else
             return false;

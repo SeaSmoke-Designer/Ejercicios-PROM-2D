@@ -34,4 +34,9 @@ public class Paddle : MonoBehaviour
         rb.velocity = new Vector2(movement * speed, rb.velocity.y);
         //ball.GetComponent<Ball>().BallMove(movement * speed);
     }
+
+    /*public void ResetPaddle()
+    {
+        transform.position = startPosition;
+    }*/
 }
