@@ -21,8 +21,9 @@ public class Ball : MonoBehaviour
     void Start()
     {
         startPosition = transform.position;
-        paddle = GameObject.Find("Paddle");
+        //paddle = GameObject.Find("Paddle");
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        paddle = gameManager.PasarPaddle();
         isLaunch = false;
     }
 

@@ -12,12 +12,15 @@ public class Ladrillos : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private float tipoLadrillo;
     private float vidaLadrillo;
+    private GameManager gameManager;
 
     void Start()
     {
         tipoLadrillo = Random.Range(1, 6);
         vidaLadrillo = Random.Range(1, 5);
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         ElegirTipo();
+        gameManager.LlenarListaLadrillos(gameObject);
     }
 
     // Update is called once per frame
@@ -46,6 +49,7 @@ public class Ladrillos : MonoBehaviour
                 LadrilloAmarillo();
                 break;
         }
+
     }
     void LadrilloAzul()
     {
@@ -158,6 +162,7 @@ public class Ladrillos : MonoBehaviour
         }
         else
         {
+            gameManager.EliminarLadrillo(gameObject);
             Destroy(gameObject);
         }
     }

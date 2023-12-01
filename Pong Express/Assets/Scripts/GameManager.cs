@@ -6,8 +6,8 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
 
-    private enum States { Ready, Playing, GameOver, SelectMode }
-    private States state;
+    private enum eStates { Ready, Playing, GameOver, SelectMode }
+    private eStates state;
     private int player1Score;
     private int player2Score;
 
@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour
         ball = GameObject.Find("Ball");
         paddle1 = GameObject.Find("Player1");
         paddle2 = GameObject.Find("Player2");
-        state = States.SelectMode;
+        state = eStates.SelectMode;
         //paddle2.SetActive(false);
         //paddle2.GetComponent<Paddle>().enabled = false;
     }
@@ -43,16 +43,16 @@ public class GameManager : MonoBehaviour
     {
         switch (state)
         {
-            case States.SelectMode:
+            case eStates.SelectMode:
                 UpdateSelectMode();
                 break;
-            case States.Ready:
+            case eStates.Ready:
                 UpdateReady();
                 break;
-            case States.Playing:
+            case eStates.Playing:
                 UpdatePlaying();
                 break;
-            case States.GameOver:
+            case eStates.GameOver:
                 UpdateGameOver();
                 break;
 
@@ -90,12 +90,12 @@ public class GameManager : MonoBehaviour
                 paddle2.GetComponent<Paddle>().ShortenPaddle();
         }
         ball.GetComponent<Ball>().Reset();
-        state = States.Ready;
+        state = eStates.Ready;
         if (PlayerWin())
         {
             textPlayerWin.enabled = true;
             messageWin.enabled = true;
-            state = States.GameOver;
+            state = eStates.GameOver;
         }
     }
 
@@ -145,17 +145,17 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            //paddle2.GetComponent<Paddle>().enabled = true;
+            paddle2.GetComponent<Paddle>().enabled = true;
             paddle2.GetComponent<AutoPaddle>().enabled = false;
             selectModeText.SetActive(false);
-            state = States.Ready;
+            state = eStates.Ready;
         }
         else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             paddle2.GetComponent<Paddle>().enabled = false;
             paddle2.GetComponent<AutoPaddle>().enabled = true;
             selectModeText.SetActive(false);
-            state = States.Ready;
+            state = eStates.Ready;
         }
     }
 
@@ -165,7 +165,7 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             ball.GetComponent<Ball>().Launch();
-            state = States.Playing;
+            state = eStates.Playing;
         }
         else if (Input.GetKeyDown(KeyCode.R))
         {
@@ -176,8 +176,8 @@ public class GameManager : MonoBehaviour
 
     void UpdatePlaying()
     {
-        if (PlayerWin())
-            state = States.GameOver;
+        /*if (PlayerWin())
+            state = eStates.GameOver;*/
     }
 
     void UpdateGameOver()
@@ -186,7 +186,7 @@ public class GameManager : MonoBehaviour
         {
             ResetScore();
             selectModeText.SetActive(true);
-            state = States.SelectMode;
+            state = eStates.SelectMode;
         }
     }
 
