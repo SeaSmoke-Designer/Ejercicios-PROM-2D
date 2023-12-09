@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    private enum eStates { Ready, Playing, GameOver };
+    private enum eStates { Ready, Playing, GameOver, NextLevel };
     private eStates state;
 
     [SerializeField]
@@ -25,8 +25,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     private Sprite spriteNoLife;
-    //[SerializeField]
-    //private SpriteRenderer spriteRenderer;
+    [SerializeField]
+    private GameObject textWin;
     private int vidas;
     void Start()
     {
@@ -34,8 +34,7 @@ public class GameManager : MonoBehaviour
         paddle = Instantiate(paddlePrefab);
         ball = Instantiate(ballPrefab);
         textLose.SetActive(false);
-
-        //ball = GameObject.Find("Ball");
+        textWin.SetActive(false);
         vidas = 3;
     }
 
@@ -56,6 +55,9 @@ public class GameManager : MonoBehaviour
             case eStates.GameOver:
                 UpdateGameOver();
                 break;
+            case eStates.NextLevel:
+                UpdateNextLevel();
+                break;
         }
 
     }
@@ -72,7 +74,15 @@ public class GameManager : MonoBehaviour
 
     void UpdatePlaying()
     {
-
+        if (Win())
+            state = eStates.NextLevel; 
+    }
+    void UpdateNextLevel()
+    {
+        DestroyObjects();
+        textWin.SetActive(true);
+        if(Input.GetKeyDown(KeyCode.Space))
+            SceneManager.LoadScene(2);
     }
 
     void UpdateGameOver()
@@ -135,33 +145,34 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < ladrillosList.Count; i++)
         {
             if (ladrillosList[i] == gameObject)
-            {
-                Debug.Log("Elimina");
                 ladrillosList.Remove(gameObject);
-            }
-
         }
 
     }
-    //Revisar y poner condicion porque en el update estramos todo el rato aqui 
     void DestroyObjects()
     {
-        Destroy(ball);
-        Destroy(paddle);
-        if (ladrillosList.Count > 0)
-            foreach (GameObject item in ladrillosList)
-                Destroy(item);
+        if(spritesLifes.Count != 0)
+        {
+            Destroy(ball);
+            Destroy(paddle);
+            if (ladrillosList.Count > 0)
+                foreach (GameObject item in ladrillosList)
+                    Destroy(item);
 
-        ladrillosList.Clear();
-        foreach (GameObject item in spritesLifes)
-        {
-            Destroy(item);
+            ladrillosList.Clear();
+            foreach (GameObject item in spritesLifes)
+                Destroy(item);
+            spritesLifes.Clear();
         }
-        /*for (int i = 0; i < spritesLifes.Count; i++)
-        {
-            Destroy(spritesLifes[i]);
-        }*/
-        spritesLifes.Clear();
+       
+    }
+
+    bool Win()
+    {
+        if (ladrillosList.Count > 0)
+            return false;
+        else
+            return true;
     }
     void RestarGame()
     {
