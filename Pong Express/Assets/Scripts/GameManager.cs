@@ -1,15 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.Netcode;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class GameManager : NetworkBehaviour
 {
-
     private enum eStates { Ready, Playing, GameOver, SelectMode }
     private eStates state;
     private int player1Score;
     private int player2Score;
+    [SerializeField]
+    private GameObject paddle1Prefab;
+    [SerializeField]
+    private GameObject paddle2Prefab;
 
     public int maxScore;
 
@@ -31,8 +35,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         ball = GameObject.Find("Ball");
-        paddle1 = GameObject.Find("Player1");
-        paddle2 = GameObject.Find("Player2");
+
         state = eStates.SelectMode;
         //paddle2.SetActive(false);
         //paddle2.GetComponent<Paddle>().enabled = false;
@@ -143,35 +146,60 @@ public class GameManager : MonoBehaviour
 
     void UpdateSelectMode()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        if (Input.GetKeyDown("1"))
         {
+            InstanciarPalas();
             paddle2.GetComponent<Paddle>().enabled = true;
             paddle2.GetComponent<AutoPaddle>().enabled = false;
             selectModeText.SetActive(false);
             state = eStates.Ready;
         }
-        else if (Input.GetKeyDown(KeyCode.Alpha2))
+        else if (Input.GetKeyDown("2"))
         {
+            InstanciarPalas();
             paddle2.GetComponent<Paddle>().enabled = false;
             paddle2.GetComponent<AutoPaddle>().enabled = true;
             selectModeText.SetActive(false);
             state = eStates.Ready;
+        }
+        else if (Input.GetKeyDown("3"))
+        {
+            NetworkManager.Singleton.StartHost();
+            //InstanciarPalasNet();
+            paddle1 = Instantiate(paddle1Prefab, new Vector3(-8, 0, 0), Quaternion.identity);
+            paddle1.GetComponent<NetworkObject>().Spawn(true);
+            selectModeText.SetActive(false);
+            state = eStates.Ready;
+        }
+        else if (Input.GetKeyDown("4"))
+        {
+            //revisar pagina 11 del PDf
+            NetworkManager.Singleton.StartClient();
+
+            //Lo que esta en comentario, esta mas o menos mal, este no es el sitio.
+            //ulong id = (ulong)paddle1.GetComponent<NetworkManager>().GetInstanceID();
+            //paddle2 = Instantiate(paddle1Prefab, new Vector3(8, 0, 0), Quaternion.identity);
+            //paddle2.GetComponent<NetworkObject>().SpawnWithOwnership(id, true);
         }
     }
 
     void UpdateReady()
     {
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (paddle2 != null)
         {
-            ball.GetComponent<Ball>().Launch();
-            state = eStates.Playing;
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                ball.GetComponent<Ball>().Launch();
+                state = eStates.Playing;
+            }
+            else if (Input.GetKeyDown(KeyCode.R))
+            {
+                if (ScoreChanged())
+                    ResetScore();
+            }
         }
-        else if (Input.GetKeyDown(KeyCode.R))
-        {
-            if (ScoreChanged())
-                ResetScore();
-        }
+
     }
 
     void UpdatePlaying()
@@ -198,5 +226,19 @@ public class GameManager : MonoBehaviour
             return false;
     }
 
+    void InstanciarPalas()
+    {
+        paddle1 = Instantiate(paddle1Prefab);
+        paddle2 = Instantiate(paddle2Prefab);
+    }
+    void InstanciarPalasNet()
+    {
+
+
+        //ulong clientId = paddle1.GetComponent<Hos;
+
+        //paddle2 = Instantiate(paddle2Prefab, new Vector3(8, 0, 0), Quaternion.identity);
+        //paddle2.GetComponent<NetworkObject>().SpawnWithOwnership();
+    }
 
 }
