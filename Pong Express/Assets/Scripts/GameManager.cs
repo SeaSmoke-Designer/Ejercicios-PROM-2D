@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class GameManager : NetworkBehaviour
 {
-    private enum eStates { Ready, Playing, GameOver, SelectMode }
+    private enum eStates { Ready, Playing, GameOver, SelectMode, Waiting }
     private eStates state;
     private int player1Score;
     private int player2Score;
@@ -30,6 +30,11 @@ public class GameManager : NetworkBehaviour
     [SerializeField]
     private GameObject selectModeText;
 
+    //Network
+
+    NetworkVariable<int> netPlayer1Score = new NetworkVariable<int>();
+    NetworkVariable<int> netPlayer2Score = new NetworkVariable<int>();
+
 
     // Start is called before the first frame update
     void Start()
@@ -48,6 +53,9 @@ public class GameManager : NetworkBehaviour
         {
             case eStates.SelectMode:
                 UpdateSelectMode();
+                break;
+            case eStates.Waiting:
+                UpdateWaiting();
                 break;
             case eStates.Ready:
                 UpdateReady();
@@ -94,11 +102,13 @@ public class GameManager : NetworkBehaviour
         }
         ball.GetComponent<Ball>().Reset();
         state = eStates.Ready;
+        ReadyClientRpc();
         if (PlayerWin())
         {
             textPlayerWin.enabled = true;
             messageWin.enabled = true;
             state = eStates.GameOver;
+            GameOverClientRpc();
         }
     }
 
@@ -169,43 +179,49 @@ public class GameManager : NetworkBehaviour
             paddle1 = Instantiate(paddle1Prefab, new Vector3(-8, 0, 0), Quaternion.identity);
             paddle1.GetComponent<NetworkObject>().Spawn(true);
             selectModeText.SetActive(false);
-            state = eStates.Ready;
+            state = eStates.Waiting;
         }
         else if (Input.GetKeyDown("4"))
         {
-            //revisar pagina 11 del PDf
             NetworkManager.Singleton.StartClient();
-
-            //Lo que esta en comentario, esta mas o menos mal, este no es el sitio.
-            //ulong id = (ulong)paddle1.GetComponent<NetworkManager>().GetInstanceID();
-            //paddle2 = Instantiate(paddle1Prefab, new Vector3(8, 0, 0), Quaternion.identity);
-            //paddle2.GetComponent<NetworkObject>().SpawnWithOwnership(id, true);
+            selectModeText.SetActive(false);
+            state = eStates.Ready;
         }
     }
 
+
+
     void UpdateReady()
     {
-
-        if (paddle2 != null)
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (Input.GetKeyDown(KeyCode.Space))
+
+            if (IsClient && IsHost)
             {
                 ball.GetComponent<Ball>().Launch();
-                state = eStates.Playing;
+                StarGameClientRpc();
             }
-            else if (Input.GetKeyDown(KeyCode.R))
-            {
-                if (ScoreChanged())
-                    ResetScore();
-            }
-        }
+            else
+                StarGameServerRpc();
 
+            state = eStates.Playing;
+        }
+        else if (Input.GetKeyDown(KeyCode.R))
+        {
+            if (ScoreChanged())
+                ResetScore();
+        }
     }
 
     void UpdatePlaying()
     {
         /*if (PlayerWin())
             state = eStates.GameOver;*/
+    }
+    void UpdateWaiting()
+    {
+        if (paddle2 != null)
+            state = eStates.Ready;
     }
 
     void UpdateGameOver()
@@ -231,14 +247,63 @@ public class GameManager : NetworkBehaviour
         paddle1 = Instantiate(paddle1Prefab);
         paddle2 = Instantiate(paddle2Prefab);
     }
-    void InstanciarPalasNet()
+
+    public override void OnNetworkSpawn()
     {
+        if (!IsServer)
+        {
+            netPlayer1Score.OnValueChanged += OnScoreChanged;
+            netPlayer2Score.OnValueChanged += OnScoreChanged;
+            SpawnClientPlayerServerRpc(NetworkManager.Singleton.LocalClientId);
 
+        }
+    }
 
-        //ulong clientId = paddle1.GetComponent<Hos;
+    public override void OnNetworkDespawn()
+    {
+        if (!IsServer)
+        {
+            netPlayer1Score.OnValueChanged -= OnScoreChanged;
+            netPlayer2Score.OnValueChanged -= OnScoreChanged;
+        }
+    }
 
-        //paddle2 = Instantiate(paddle2Prefab, new Vector3(8, 0, 0), Quaternion.identity);
-        //paddle2.GetComponent<NetworkObject>().SpawnWithOwnership();
+    public void OnScoreChanged(int previous, int current)
+    {
+        textScorePlayer1.text = player1Score.ToString();
+        textScorePlayer2.text = player2Score.ToString();
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    void SpawnClientPlayerServerRpc(ulong clientId)
+    {
+        paddle2 = Instantiate(paddle1, new Vector3(8, 0, 0), Quaternion.identity);
+        paddle2.GetComponent<NetworkObject>().SpawnWithOwnership(clientId, true);
+    }
+
+    [ClientRpc]
+    void StarGameClientRpc()
+    {
+        state = eStates.Playing;
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    void StarGameServerRpc()
+    {
+        ball.GetComponent<Ball>().Launch();
+        state = eStates.Playing;
+    }
+
+    [ClientRpc]
+    void ReadyClientRpc()
+    {
+        state = eStates.Ready;
+    }
+
+    [ClientRpc]
+    void GameOverClientRpc()
+    {
+        state = eStates.Ready;
     }
 
 }

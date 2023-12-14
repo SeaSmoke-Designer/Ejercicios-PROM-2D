@@ -51,7 +51,7 @@ public class Paddle : MonoBehaviour
         transform.localScale = startScale;
     }
 
-    void OnCollisionEnter2D(Collision2D collision2D)
+    /* void OnCollisionEnter2D(Collision2D collision2D)
     {
         if (collision2D.gameObject.tag.Equals("Ball"))
         {
@@ -61,5 +61,5 @@ public class Paddle : MonoBehaviour
                 collision2D.gameObject.GetComponent<Ball>().AumentarVelocidadBall(false);
 
         }
-    }
+    } */
 }
