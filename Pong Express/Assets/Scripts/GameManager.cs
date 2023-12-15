@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -29,11 +30,13 @@ public class GameManager : NetworkBehaviour
 
     [SerializeField]
     private GameObject selectModeText;
+    private string quienGana;
 
     //Network
 
     NetworkVariable<int> netPlayer1Score = new NetworkVariable<int>();
     NetworkVariable<int> netPlayer2Score = new NetworkVariable<int>();
+    NetworkVariable<FixedString64Bytes> netQuienGana = new NetworkVariable<FixedString64Bytes>();
 
 
     // Start is called before the first frame update
@@ -73,20 +76,20 @@ public class GameManager : NetworkBehaviour
     public void Player1Scores()
     {
         player1Score++;
+        netPlayer1Score.Value++;
         PlayerScore("Player1");
     }
 
     public void Player2Scores()
     {
         player2Score++;
+        netPlayer2Score.Value++;
         PlayerScore("Player2");
     }
 
     private void PlayerScore(string player)
     {
         RellenarMarcador();
-        //string msjPlayer = player == "Player1" ? "Player 1 " : "Player 2";
-        //Debug.Log(msjPlayer + " ha marcado gol! Marcador: " + player1Score + " : " + player2Score);
         ResetPaddles();
         if (player.Equals("Player1"))
         {
@@ -105,8 +108,6 @@ public class GameManager : NetworkBehaviour
         ReadyClientRpc();
         if (PlayerWin())
         {
-            textPlayerWin.enabled = true;
-            messageWin.enabled = true;
             state = eStates.GameOver;
             GameOverClientRpc();
         }
@@ -120,15 +121,18 @@ public class GameManager : NetworkBehaviour
 
     public void ResetScore()
     {
-        if (PlayerWin())
-        {
-            textPlayerWin.enabled = false;
-            messageWin.enabled = false;
-        }
+        //if (PlayerWin())
+        //{
+        textPlayerWin.enabled = false;
+        messageWin.enabled = false;
+        //}
         player1Score = 0;
         player2Score = 0;
-        paddle1.GetComponent<Paddle>().ResetSize();
-        paddle2.GetComponent<Paddle>().ResetSize();
+        if (!IsServer && !IsClient)
+        {
+            paddle1.GetComponent<Paddle>().ResetSize();
+            paddle2.GetComponent<Paddle>().ResetSize();
+        }
         RellenarMarcador();
         Debug.Log("Marcador reseteado...");
     }
@@ -143,12 +147,16 @@ public class GameManager : NetworkBehaviour
     {
         if (player1Score == maxScore)
         {
-            textPlayerWin.SetText("Player 1 ha ganado!");
+            quienGana = "Player 1 ha ganado!";
+            netQuienGana.Value = quienGana;
+            textPlayerWin.SetText(quienGana);
             return true;
         }
         else if (player2Score == maxScore)
         {
-            textPlayerWin.SetText("Player 2 ha ganado!");
+            quienGana = "Player 2 ha ganado!";
+            netQuienGana.Value = quienGana;
+            textPlayerWin.SetText(quienGana);
             return true;
         }
         return false;
@@ -226,12 +234,32 @@ public class GameManager : NetworkBehaviour
 
     void UpdateGameOver()
     {
-        if (Input.GetKeyDown(KeyCode.C))
+        textPlayerWin.enabled = true;
+        Debug.Log(state.ToString());
+        if (!IsServer)
         {
-            ResetScore();
-            selectModeText.SetActive(true);
-            state = eStates.SelectMode;
+            textPlayerWin.SetText(quienGana);
+            messageWin.SetText("Esperando respuesta del Host...");
         }
+        messageWin.enabled = true;
+
+        if (IsClient && IsServer)
+        {
+            if (Input.GetKeyDown(KeyCode.C))
+            {
+                SelectModeClientRpc();
+                ResetScore();
+                selectModeText.SetActive(true);
+                state = eStates.SelectMode;
+                NetworkManager.Singleton.Shutdown();
+            }
+        }
+
+    }
+    void DestruirPalas()
+    {
+        Destroy(paddle1);
+        Destroy(paddle2);
     }
 
     bool ScoreChanged()
@@ -254,6 +282,8 @@ public class GameManager : NetworkBehaviour
         {
             netPlayer1Score.OnValueChanged += OnScoreChanged;
             netPlayer2Score.OnValueChanged += OnScoreChanged;
+            netQuienGana.OnValueChanged += OnWinnerChanged;
+            //netQuienGana.OnValueChanged += OnScoreChanged;
             SpawnClientPlayerServerRpc(NetworkManager.Singleton.LocalClientId);
 
         }
@@ -265,13 +295,28 @@ public class GameManager : NetworkBehaviour
         {
             netPlayer1Score.OnValueChanged -= OnScoreChanged;
             netPlayer2Score.OnValueChanged -= OnScoreChanged;
+            netQuienGana.OnValueChanged -= OnWinnerChanged;
+            //netQuienGana.OnValueChanged -= OnScoreChanged;
         }
+    }
+
+
+    public void OnWinnerChanged(FixedString64Bytes previous, FixedString64Bytes current)
+    {
+        //textScorePlayer1.text = player1Score.ToString();
+        //textScorePlayer2.text = player2Score.ToString();
+        textPlayerWin.SetText(netQuienGana.Value.ToString());
+        Debug.Log(netQuienGana.Value);
+
+
     }
 
     public void OnScoreChanged(int previous, int current)
     {
-        textScorePlayer1.text = player1Score.ToString();
-        textScorePlayer2.text = player2Score.ToString();
+        //textScorePlayer1.text = player1Score.ToString();
+        //textScorePlayer2.text = player2Score.ToString();
+        textScorePlayer1.SetText(netPlayer1Score.Value.ToString());
+        textScorePlayer2.SetText(netPlayer2Score.Value.ToString());
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -279,6 +324,7 @@ public class GameManager : NetworkBehaviour
     {
         paddle2 = Instantiate(paddle1, new Vector3(8, 0, 0), Quaternion.identity);
         paddle2.GetComponent<NetworkObject>().SpawnWithOwnership(clientId, true);
+        paddle2.tag = "Player2";
     }
 
     [ClientRpc]
@@ -303,7 +349,14 @@ public class GameManager : NetworkBehaviour
     [ClientRpc]
     void GameOverClientRpc()
     {
-        state = eStates.Ready;
+        state = eStates.GameOver;
     }
 
+    [ClientRpc]
+    void SelectModeClientRpc()
+    {
+        ResetScore();
+        selectModeText.SetActive(true);
+        state = eStates.SelectMode;
+    }
 }
