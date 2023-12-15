@@ -52,9 +52,6 @@ public class Ball : MonoBehaviour
             isLaunch = false;
             //ball.transform.position = startPosition;
         }
-
     }
-
-
 
 }

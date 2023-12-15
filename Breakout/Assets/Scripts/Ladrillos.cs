@@ -13,6 +13,14 @@ public class Ladrillos : MonoBehaviour
     private float tipoLadrillo;
     private float vidaLadrillo;
     private GameManager gameManager;
+    private readonly float probabilidadPowerUp = 0.4f;
+    [SerializeField]
+    private GameObject powerUpVidaPrefab;
+    private GameObject powerUpVida;
+
+    [SerializeField]
+    private GameObject powerUpBolaPrefab;
+    private GameObject powerUpBola;
 
     void Start()
     {
@@ -162,8 +170,36 @@ public class Ladrillos : MonoBehaviour
         }
         else
         {
+            LanzarPowerUp();
             gameManager.EliminarLadrillo(gameObject);
             Destroy(gameObject);
         }
+    }
+
+    void LanzarPowerUp()
+    {
+        if (spriteRenderer.sprite == sprites[0])
+        {
+            if (ProbabilidadPowerUp())
+            {
+                powerUpBola = Instantiate(powerUpBolaPrefab);
+                powerUpBola.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y,0);
+            }
+        }
+        else if (spriteRenderer.sprite == sprites[8])
+        {
+            if (ProbabilidadPowerUp())
+            {
+                powerUpVida = Instantiate(powerUpVidaPrefab);
+                powerUpVida.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, 0);
+            }
+        }
+    }
+
+    bool ProbabilidadPowerUp()
+    {
+        if (Random.value < probabilidadPowerUp)
+            return true;
+        else return false;
     }
 }

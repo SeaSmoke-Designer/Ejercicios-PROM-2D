@@ -146,6 +146,7 @@ public class GameManager : MonoBehaviour
         {
             if (ladrillosList[i] == gameObject)
                 ladrillosList.Remove(gameObject);
+                
         }
 
     }
@@ -185,4 +186,6 @@ public class GameManager : MonoBehaviour
 #endif
         Application.Quit();
     }
+
+    
 }

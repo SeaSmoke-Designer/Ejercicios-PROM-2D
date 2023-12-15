@@ -39,4 +39,17 @@ public class Paddle : MonoBehaviour
     {
         transform.position = startPosition;
     }*/
+
+    
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("PowerUpVida"))
+        {
+            Debug.Log("Vida");
+            Destroy(collision.gameObject);
+        }
+        else if (collision.gameObject.CompareTag("PowerUpBola"))
+            Debug.Log("Bola");
+    }
+
 }
