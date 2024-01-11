@@ -6,19 +6,16 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     private Rigidbody2D rb;
-    [SerializeField]
-    private float speed;
+    [SerializeField] private float speed;
+    [SerializeField] private float doubleJumpSpeed;
     private float movementH;
     private bool isJump;
-    [SerializeField]
-    private float jumpSpeed;
-    [SerializeField]
-    private float doubleJumpSpeed;
+    [SerializeField] private float jumpSpeed;
     private bool isDoubleJump;
     private BoxCollider2D boxCollider2D;
     private Animator animator;
-    [SerializeField]
-    LayerMask mapLayer;
+    [SerializeField] LayerMask mapLayer;
+    private bool isGrounded;
 
 
 
@@ -39,6 +36,8 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
             isJump = true;
         animator.SetBool("IsRunning", movementH != 0f);
+        animator.SetBool("IsGrounded", isGrounded);
+        //animator.SetTrigger("IsJump");
     }
 
     void FixedUpdate()
@@ -58,33 +57,39 @@ public class Player : MonoBehaviour
 
     private void Jump()
     {
-        if (isGrounded())
+        isGrounded = false;
+        if (IsGrounded())
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpSpeed);
             isDoubleJump = true;
         }
-        else
+        else if (isDoubleJump)
         {
-            if (isDoubleJump)
-            {
-                rb.velocity = new Vector2(rb.velocity.x, doubleJumpSpeed);
-                isDoubleJump = false;
-            }
+            rb.velocity = new Vector2(rb.velocity.x, doubleJumpSpeed);
+            isDoubleJump = false;
         }
 
         isJump = false;
     }
 
-    bool isGrounded()
+    bool IsGrounded()
     {
         var boxCastHit = Physics2D.BoxCast(boxCollider2D.bounds.center, boxCollider2D.bounds.size, 0, Vector2.down, 0.1f, mapLayer);
         return boxCastHit.collider != null;
     }
 
+    /*bool isNextToTheWall()
+    {
+        Vector2 directionToTest = facingRight ? Vector2.right : Vector2.left;
+        var boxCastHit = Physics2D.BoxCast(boxCollider2D.bounds.center, boxCollider2D.bounds.size, 0, directionToTest, 0.1f, mapLayer);
+        return boxCastHit.collider != null;
+    }*/
+
     private void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.CompareTag("Ground"))
         {
+            isGrounded = true;
             isDoubleJump = true;
         }
     }
