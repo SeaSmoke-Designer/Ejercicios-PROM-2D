@@ -668,7 +668,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1.8
+  m_GravityScale: 1.2
   m_Material: {fileID: 6200000, guid: 58602e1a893d7414293b481fe3b97d7c, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
@@ -678,7 +678,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!61 &531320723
 BoxCollider2D:
@@ -764,6 +764,8 @@ MonoBehaviour:
   mapLayer:
     serializedVersion: 2
     m_Bits: 64
+  castDistanceX: 0.02
+  castDistanceY: 0.1
 --- !u!1 &608173303
 GameObject:
   m_ObjectHideFlags: 0

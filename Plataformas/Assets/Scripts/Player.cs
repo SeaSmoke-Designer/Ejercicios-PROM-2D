@@ -15,8 +15,9 @@ public class Player : MonoBehaviour
     private BoxCollider2D boxCollider2D;
     private Animator animator;
     [SerializeField] LayerMask mapLayer;
-    private bool isGrounded;
-
+    [SerializeField] private float castDistanceX;
+    [SerializeField] private float castDistanceY;
+    private bool facingRight;
 
 
     private void Awake()
@@ -36,61 +37,78 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
             isJump = true;
         animator.SetBool("IsRunning", movementH != 0f);
-        animator.SetBool("IsGrounded", isGrounded);
-        //animator.SetTrigger("IsJump");
+        animator.SetBool("IsGrounded", IsGrounded());
+        animator.SetBool("OnWall", isNextToTheWall());
     }
 
     void FixedUpdate()
     {
         if (movementH == 1)
+        {
             GetComponent<SpriteRenderer>().flipX = false;
+            facingRight = true;
+        }
         else if (movementH == -1)
+        {
             GetComponent<SpriteRenderer>().flipX = true;
-
-        //float speed2 = speed * movementH * Time.fixedDeltaTime;
+            facingRight = false;
+        }
 
         rb.velocity = new Vector2(movementH * speed, rb.velocity.y);
         if (isJump)
             Jump();
 
+
+
     }
 
     private void Jump()
     {
-        isGrounded = false;
         if (IsGrounded())
         {
+            animator.SetTrigger("IsJump");
             rb.velocity = new Vector2(rb.velocity.x, jumpSpeed);
             isDoubleJump = true;
         }
-        else if (isDoubleJump)
-        {
-            rb.velocity = new Vector2(rb.velocity.x, doubleJumpSpeed);
-            isDoubleJump = false;
-        }
+        else if (isDoubleJump || isNextToTheWall())
+            DoubleJump();
+
 
         isJump = false;
+    }
+    void DoubleJump()
+    {
+        animator.SetTrigger("DoubleJump");
+        rb.velocity = new Vector2(rb.velocity.x, doubleJumpSpeed);
+        isDoubleJump = false;
     }
 
     bool IsGrounded()
     {
-        var boxCastHit = Physics2D.BoxCast(boxCollider2D.bounds.center, boxCollider2D.bounds.size, 0, Vector2.down, 0.1f, mapLayer);
+        Vector2 box = new Vector2(boxCollider2D.bounds.size.x - castDistanceX, boxCollider2D.bounds.size.y - castDistanceY);
+        var boxCastHit = Physics2D.BoxCast(boxCollider2D.bounds.center, box, 0, Vector2.down, 0.1f, mapLayer);
         return boxCastHit.collider != null;
     }
 
-    /*bool isNextToTheWall()
+
+    bool isNextToTheWall()
     {
         Vector2 directionToTest = facingRight ? Vector2.right : Vector2.left;
         var boxCastHit = Physics2D.BoxCast(boxCollider2D.bounds.center, boxCollider2D.bounds.size, 0, directionToTest, 0.1f, mapLayer);
         return boxCastHit.collider != null;
-    }*/
-
-    private void OnCollisionEnter2D(Collision2D other)
-    {
-        if (other.gameObject.CompareTag("Ground"))
-        {
-            isGrounded = true;
-            isDoubleJump = true;
-        }
     }
+
+    /*void OnDrawGizmos()
+   {
+       if (boxCollider2D == null) return;
+       Gizmos.color = Color.red;
+
+       var cubeOrigin = new Vector2(boxCollider2D.bounds.center.x, boxCollider2D.bounds.center.y - castDistanceY);
+       var cubeSize = new Vector2(boxCollider2D.bounds.size.x - castDistanceX, boxCollider2D.bounds.size.y);
+       Gizmos.DrawWireCube(cubeOrigin, cubeSize);
+
+       /*Vector2 rayCastOrigin = new Vector2(boxCollider.bounds.center.x, boxCollider.bounds.min.y);
+       Gizmos.DrawLine(rayCastOrigin, rayCastOrigin - new Vector2(0, castDistance));
+   }*/
 }
+
