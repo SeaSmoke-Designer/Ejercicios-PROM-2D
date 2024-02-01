@@ -18,6 +18,8 @@ public class Player : MonoBehaviour
     [SerializeField] private float castDistanceX;
     [SerializeField] private float castDistanceY;
     private bool facingRight;
+    private bool saltandoDePared;
+    private bool deslizando;
 
 
     private void Awake()
@@ -36,6 +38,15 @@ public class Player : MonoBehaviour
         movementH = Input.GetAxisRaw("Horizontal");
         if (Input.GetKeyDown(KeyCode.Space))
             isJump = true;
+
+        if(!IsGrounded() && isNextToTheWall() && movementH != 0)
+        {
+            deslizando = true;
+        }
+        else
+        {
+            deslizando = false;
+        }
         animator.SetBool("IsRunning", movementH != 0f);
         animator.SetBool("IsGrounded", IsGrounded());
         animator.SetBool("OnWall", isNextToTheWall());
@@ -53,8 +64,10 @@ public class Player : MonoBehaviour
             GetComponent<SpriteRenderer>().flipX = true;
             facingRight = false;
         }
+        
+        if(!saltandoDePared)
+            rb.velocity = new Vector2(movementH * speed, rb.velocity.y);
 
-        rb.velocity = new Vector2(movementH * speed, rb.velocity.y);
         if (isJump)
             Jump();
 
@@ -70,11 +83,27 @@ public class Player : MonoBehaviour
             rb.velocity = new Vector2(rb.velocity.x, jumpSpeed);
             isDoubleJump = true;
         }
-        else if (isDoubleJump || isNextToTheWall())
+        else if (isDoubleJump)
             DoubleJump();
-
-
+        else if (deslizando)
+        {
+            SaltoPared();
+        }
         isJump = false;
+    }
+
+    void SaltoPared() //Saltar desde la pared
+    {
+        animator.SetTrigger("DoubleJump");
+        rb.velocity = new Vector2(5f * -movementH, doubleJumpSpeed);
+        StartCoroutine(CambioSaltoPared());
+    }
+
+    IEnumerator CambioSaltoPared() //Cambia la variable que nos permite saltar
+    {
+        saltandoDePared = true;
+        yield return new WaitForSeconds(0.2f);
+        saltandoDePared = false;
     }
     void DoubleJump()
     {
