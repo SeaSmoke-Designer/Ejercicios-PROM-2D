@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -14,6 +15,11 @@ public class GestionarVida : MonoBehaviour
     [SerializeField] private Slider slider;
     [SerializeField] private bool enemigoCerca;
 
+    [SerializeField] private float velocidadRegeneracion;
+    [SerializeField] private Image backgroundBarra;
+    [SerializeField] private Image frontBarra;
+    private float transparencia;
+
     void Awake()
     {
         vidaActual = vidaMaxima;
@@ -21,6 +27,7 @@ public class GestionarVida : MonoBehaviour
         //slider = GetComponent<Slider>();
         slider.maxValue = vidaMaxima;
         slider.value = vidaMaxima;
+        transparencia = 1f;
     }
 
     void Start()
@@ -38,15 +45,16 @@ public class GestionarVida : MonoBehaviour
         }
         if (vidaActual < 100)
             RegenerarVida();
+
+        if (Input.GetKeyDown(KeyCode.T))
+            DesapareceBarra();
+        else if (Input.GetKeyDown(KeyCode.Y))
+            ApareceBarra();
         slider.value = vidaActual;
         slider.gameObject.SetActive(enemigoCerca);
+
     }
 
-    /*private void OnTriggerEnter2D(Collider2D other) {
-        if (other.gameObject.CompareTag("Daño"))
-            TomarDaño(15);
-        Debug.Log("Vida Actual: " + vidaActual);
-    }*/
 
     public void TomarDaño(float daño)
     {
@@ -57,8 +65,7 @@ public class GestionarVida : MonoBehaviour
 
     private void RegenerarVida()
     {
-        vidaActual += Time.deltaTime * 0.1f;
-
+        vidaActual = Mathf.Min(100f, vidaActual + Time.deltaTime * velocidadRegeneracion);
     }
 
     public void ZonaPeligro(bool peligro)
@@ -66,11 +73,26 @@ public class GestionarVida : MonoBehaviour
 
     }
 
-    IEnumerator SumarVida()
+    private void DesapareceBarra()
     {
-        yield return new WaitForSeconds(10f);
-        vidaActual += 1;
-        yield break;
+        while (transparencia <= 0)
+        {
+            StartCoroutine(CorDesapareceBarra());
+        }
+    }
+
+    private void ApareceBarra()
+    {
+        backgroundBarra.color = new Color(backgroundBarra.color.r, backgroundBarra.color.g, backgroundBarra.color.b, 0f);
+        frontBarra.color = new Color(frontBarra.color.r, frontBarra.color.g, frontBarra.color.b, 0f);
+    }
+
+    IEnumerator CorDesapareceBarra()
+    {
+        transparencia -= .2f;
+        yield return new WaitForSeconds(2f);
+        backgroundBarra.color = new Color(backgroundBarra.color.r, backgroundBarra.color.g, backgroundBarra.color.b, transparencia);
+        frontBarra.color = new Color(frontBarra.color.r, frontBarra.color.g, frontBarra.color.b, transparencia);
     }
 
     private void OnCollisionEnter2D(Collision2D other)
