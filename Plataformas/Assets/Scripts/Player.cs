@@ -20,6 +20,9 @@ public class Player : MonoBehaviour
     private bool facingRight;
     private bool saltandoDePared;
     private bool deslizando;
+    [SerializeField] private float saltoPared;
+    [SerializeField] private float tiempoSaltoPared;
+    private SpriteRenderer sprite;
 
 
     private void Awake()
@@ -27,6 +30,7 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         boxCollider2D = GetComponent<BoxCollider2D>();
         animator = GetComponent<Animator>();
+        sprite = GetComponent<SpriteRenderer>();
     }
     void Start()
     {
@@ -40,13 +44,9 @@ public class Player : MonoBehaviour
             isJump = true;
 
         if(!IsGrounded() && isNextToTheWall() && movementH != 0)
-        {
             deslizando = true;
-        }
         else
-        {
             deslizando = false;
-        }
         animator.SetBool("IsRunning", movementH != 0f);
         animator.SetBool("IsGrounded", IsGrounded());
         animator.SetBool("OnWall", isNextToTheWall());
@@ -54,25 +54,12 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (movementH == 1)
-        {
-            GetComponent<SpriteRenderer>().flipX = false;
-            facingRight = true;
-        }
-        else if (movementH == -1)
-        {
-            GetComponent<SpriteRenderer>().flipX = true;
-            facingRight = false;
-        }
-        
+        FlipPlayer();
         if(!saltandoDePared)
             rb.velocity = new Vector2(movementH * speed, rb.velocity.y);
 
         if (isJump)
             Jump();
-
-
-
     }
 
     private void Jump()
@@ -86,30 +73,39 @@ public class Player : MonoBehaviour
         else if (isDoubleJump)
             DoubleJump();
         else if (deslizando)
-        {
             SaltoPared();
-        }
+        
         isJump = false;
     }
 
     void SaltoPared() //Saltar desde la pared
     {
+        isDoubleJump = false;
         animator.SetTrigger("DoubleJump");
-        rb.velocity = new Vector2(5f * -movementH, doubleJumpSpeed);
+        rb.velocity = new Vector2(saltoPared * -movementH, doubleJumpSpeed);
+        deslizando = false;
         StartCoroutine(CambioSaltoPared());
     }
 
-    IEnumerator CambioSaltoPared() //Cambia la variable que nos permite saltar
+    IEnumerator CambioSaltoPared() 
     {
         saltandoDePared = true;
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(tiempoSaltoPared);
         saltandoDePared = false;
     }
     void DoubleJump()
     {
-        animator.SetTrigger("DoubleJump");
-        rb.velocity = new Vector2(rb.velocity.x, doubleJumpSpeed);
-        isDoubleJump = false;
+        if (!deslizando)
+        {
+            animator.SetTrigger("DoubleJump");
+            rb.velocity = new Vector2(rb.velocity.x, doubleJumpSpeed);
+            isDoubleJump = false;
+        }
+        else
+        {
+            SaltoPared();
+        }
+        
     }
 
     bool IsGrounded()
@@ -125,6 +121,20 @@ public class Player : MonoBehaviour
         Vector2 directionToTest = facingRight ? Vector2.right : Vector2.left;
         var boxCastHit = Physics2D.BoxCast(boxCollider2D.bounds.center, boxCollider2D.bounds.size, 0, directionToTest, 0.1f, mapLayer);
         return boxCastHit.collider != null;
+    }
+
+    void FlipPlayer()
+    {
+        if (movementH == 1)
+        {
+            sprite.flipX = false;
+            facingRight = true;
+        }
+        else if (movementH == -1)
+        {
+            sprite.flipX = true;
+            facingRight = false;
+        }
     }
 
     /*void OnDrawGizmos()
