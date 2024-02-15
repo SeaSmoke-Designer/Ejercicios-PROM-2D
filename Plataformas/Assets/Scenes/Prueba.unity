@@ -329,7 +329,7 @@ GameObject:
   - component: {fileID: 296422440}
   - component: {fileID: 296422444}
   m_Layer: 0
-  m_Name: Idle 1 (44x26)_0
+  m_Name: Enemy-Turtle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
