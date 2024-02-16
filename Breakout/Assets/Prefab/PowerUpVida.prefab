@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 796796454671925714}
   - component: {fileID: 762799648928621096}
   - component: {fileID: 1529173830553059266}
+  - component: {fileID: 8645243327199397776}
   m_Layer: 0
   m_Name: PowerUpVida
   m_TagString: PowerUpVida
@@ -158,3 +159,15 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.16, y: 0.16}
   m_EdgeRadius: 0
+--- !u!114 &8645243327199397776
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6820630229417167470}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1324297d70ed43c59afa53aa8a834398, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

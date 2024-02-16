@@ -15,10 +15,12 @@ public class Paddle : MonoBehaviour
     private Vector3 startPosition;
 
     private GameObject ball;
+    private GameManager gm;
 
     void Start()
     {
         startPosition = transform.position;
+        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         //ball = GameObject.Find("Ball");
     }
 
@@ -40,16 +42,21 @@ public class Paddle : MonoBehaviour
         transform.position = startPosition;
     }*/
 
-    
-    private void OnTriggerEnter2D(Collider2D collision)
+
+    /*private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("PowerUpVida"))
         {
-            Debug.Log("Vida");
+            Debug.Log("Curar");
+            gm.Curar();
             Destroy(collision.gameObject);
         }
         else if (collision.gameObject.CompareTag("PowerUpBola"))
+        {
             Debug.Log("Bola");
-    }
+            Destroy(collision.gameObject);
+        }
+
+    }*/
 
 }

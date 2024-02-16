@@ -5,21 +5,16 @@ using UnityEngine;
 
 public class Ladrillos : MonoBehaviour
 {
-    [SerializeField]
-    private List<Sprite> sprites;
-
-    [SerializeField]
-    private SpriteRenderer spriteRenderer;
+    [SerializeField] private List<Sprite> sprites;
+    [SerializeField] private SpriteRenderer spriteRenderer;
     private float tipoLadrillo;
     private float vidaLadrillo;
     private GameManager gameManager;
-    private readonly float probabilidadPowerUp = 0.4f;
-    [SerializeField]
-    private GameObject powerUpVidaPrefab;
+    private readonly float probabilidadPowerUp = 0.8f;
+    [SerializeField] private GameObject powerUpVidaPrefab;
     private GameObject powerUpVida;
 
-    [SerializeField]
-    private GameObject powerUpBolaPrefab;
+    [SerializeField] private GameObject powerUpBolaPrefab;
     private GameObject powerUpBola;
 
     void Start()
@@ -183,7 +178,7 @@ public class Ladrillos : MonoBehaviour
             if (ProbabilidadPowerUp())
             {
                 powerUpBola = Instantiate(powerUpBolaPrefab);
-                powerUpBola.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y,0);
+                powerUpBola.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, 0);
             }
         }
         else if (spriteRenderer.sprite == sprites[8])
@@ -198,8 +193,10 @@ public class Ladrillos : MonoBehaviour
 
     bool ProbabilidadPowerUp()
     {
-        if (Random.value < probabilidadPowerUp)
+        /*if (Random.value < probabilidadPowerUp)
             return true;
-        else return false;
+        else return false;*/
+
+        return Random.value < probabilidadPowerUp;
     }
 }

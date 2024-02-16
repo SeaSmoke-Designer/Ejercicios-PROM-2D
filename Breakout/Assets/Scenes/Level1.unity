@@ -1979,6 +1979,7 @@ MonoBehaviour:
   - {fileID: 1459674990}
   - {fileID: 229139337}
   spriteNoLife: {fileID: -1244098384, guid: 17fe1af548554214ca68fa7681f3a117, type: 3}
+  spriteLife: {fileID: -510220527, guid: 17fe1af548554214ca68fa7681f3a117, type: 3}
   textWin: {fileID: 459940345}
 --- !u!4 &1392978982
 Transform:

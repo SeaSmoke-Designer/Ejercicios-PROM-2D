@@ -48,7 +48,7 @@ public class Ball : MonoBehaviour
         if (other.gameObject.CompareTag("Dead"))
         {
             //Destroy(gameObject);
-            gameManager.ResetBall();
+            gameManager.ResetBall(gameObject);
             isLaunch = false;
             //ball.transform.position = startPosition;
         }
