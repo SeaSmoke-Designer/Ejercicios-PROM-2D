@@ -16,19 +16,19 @@ public class DesplazarX : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-
-        if (gameObject.transform.position.x > minX)
-        {
-
-        }
-
-
+        rb.velocity =  new Vector2(1f*velocity, rb.velocity.y);
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        if(transform.position.x <= minX)
+        {
+            rb.velocity = new Vector2(1f * velocity, rb.velocity.y);
+        }else if(transform.position.x >= maxX)
+        {
+            rb.velocity = new Vector2(-1f * velocity, rb.velocity.y);
+        }
     }
 
 
