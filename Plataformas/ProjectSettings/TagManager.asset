@@ -7,6 +7,9 @@ TagManager:
   - Ground
   - Map
   - Wall
+  - Saw
+  - Turtle
+  - SpikeHead
   layers:
   - Default
   - TransparentFX

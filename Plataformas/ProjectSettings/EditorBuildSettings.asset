@@ -5,7 +5,19 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Prueba.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/StartGame.unity
+    guid: f3e5df08d3372434ea35caa70fc9a69a
+  - enabled: 1
+    path: Assets/Scenes/Level1.unity
+    guid: 85ccce2f3302dfc49a3199f8d4e03044
+  - enabled: 1
+    path: Assets/Scenes/Level2.unity
+    guid: f1e5040c69a10a448bf7181605cef8d2
+  - enabled: 1
+    path: Assets/Scenes/EndGame.unity
+    guid: b70fc22242880724ab2178302ec37790
   m_configObjects: {}
