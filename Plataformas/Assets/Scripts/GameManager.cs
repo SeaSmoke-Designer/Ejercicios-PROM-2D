@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    private bool moverSaw;
     // Start is called before the first frame update
     void Start()
     {
@@ -17,6 +16,4 @@ public class GameManager : MonoBehaviour
         
     }
 
-    public bool GetMoverSaw() => moverSaw;
-    public void SetMoverSaw(bool value) => moverSaw = value; 
 }

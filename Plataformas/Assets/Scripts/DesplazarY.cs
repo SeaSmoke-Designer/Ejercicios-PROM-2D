@@ -7,7 +7,7 @@ public class DesplazarY : MonoBehaviour
     [SerializeField] private float minY;
     [SerializeField] private float maxY;
     [SerializeField] private float tiempoEspera;
-    [SerializeField] private float velocity;
+    [SerializeField] private float speed;
     private Rigidbody2D rb;
     private bool mover;
     private GameManager gm;
@@ -16,8 +16,7 @@ public class DesplazarY : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
-        //animator = GetComponent<Animator>();
-        rb.velocity = new Vector2(1f * velocity, rb.velocity.y);
+        rb.velocity = new Vector2(0, 1f * speed);
         mover = true;
     }
 
@@ -26,26 +25,23 @@ public class DesplazarY : MonoBehaviour
     {
         if (mover)
         {
-            if (transform.position.x <= minY)
+            if (transform.position.y <= minY)
             {
                 StartCoroutine(CorMoverPositivo());
             }
-            else if (transform.position.x >= maxY)
+            else if (transform.position.y >= maxY)
             {
                 StartCoroutine(CorMoverNegativo());
             }
         }
-        //gm.SetMoverSaw(mover);
-        //animator.SetBool("IsOn", mover);
-
     }
 
     IEnumerator CorMoverPositivo()
     {
         mover = false;
-        rb.velocity = new Vector2(0, rb.velocity.y);
+        rb.velocity = new Vector2(0, 0);
         yield return new WaitForSeconds(tiempoEspera);
-        rb.velocity = new Vector2(1f * velocity, rb.velocity.y);
+        rb.velocity = new Vector2(rb.velocity.x, 1f * speed);
         mover = true;
 
     }
@@ -53,9 +49,9 @@ public class DesplazarY : MonoBehaviour
     IEnumerator CorMoverNegativo()
     {
         mover = false;
-        rb.velocity = new Vector2(0, rb.velocity.y);
+        rb.velocity = new Vector2(0, 0);
         yield return new WaitForSeconds(tiempoEspera);
-        rb.velocity = new Vector2(-1f * velocity, rb.velocity.y);
+        rb.velocity = new Vector2(rb.velocity.x, -1f * speed);
         mover = true;
 
     }
