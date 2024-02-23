@@ -18,13 +18,17 @@ public class Ball : MonoBehaviour
     private bool isLaunch;
 
     private GameObject paddle;
-    void Start()
+    private void Awake()
     {
         startPosition = transform.position;
         //paddle = GameObject.Find("Paddle");
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         paddle = gameManager.PasarPaddle();
         isLaunch = false;
+    }
+    void Start()
+    {
+        
     }
 
     // Update is called once per frame
@@ -47,8 +51,9 @@ public class Ball : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Dead"))
         {
-            //Destroy(gameObject);
+            
             gameManager.ResetBall(gameObject);
+            Destroy(gameObject);
             isLaunch = false;
             //ball.transform.position = startPosition;
         }

@@ -11,6 +11,24 @@ public class PowerUp : MonoBehaviour
     {
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
+
+    void Update()
+    {
+        try
+        {
+            if (gm.Win() && gameObject is not null)
+                Destroy(gameObject);
+        }
+        catch (System.Exception ex)
+        {
+            Debug.Log("No se pudo");
+            Debug.Log(ex.Message);
+            //throw;
+        }
+
+        
+        
+    }
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Paddle"))
@@ -24,6 +42,7 @@ public class PowerUp : MonoBehaviour
             else if (gameObject.CompareTag("PowerUpBola"))
             {
                 Debug.Log("Bola");
+                gm.AddBall();
                 Destroy(gameObject);
             }
         }
@@ -31,6 +50,11 @@ public class PowerUp : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    public void DestruirPowerUps()
+    {
+        Destroy(gameObject);
     }
 
 }
