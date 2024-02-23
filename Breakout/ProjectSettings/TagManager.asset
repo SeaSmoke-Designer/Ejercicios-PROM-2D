@@ -9,6 +9,11 @@ TagManager:
   - PowerUpVida
   - PowerUpBola
   - Paddle
+  - Blue
+  - Red
+  - Yellow
+  - Green
+  - Violet
   layers:
   - Default
   - TransparentFX

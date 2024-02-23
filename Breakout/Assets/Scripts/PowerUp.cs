@@ -26,8 +26,8 @@ public class PowerUp : MonoBehaviour
             //throw;
         }
 
-        
-        
+
+
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
