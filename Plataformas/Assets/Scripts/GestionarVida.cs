@@ -10,9 +10,12 @@ public class GestionarVida : MonoBehaviour
     private float currentLife;
 
     [SerializeField] Slider slider;
+
+    private GameManager gm;
     // Start is called before the first frame update
     void Start()
     {
+        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         currentLife = vidaMaxima;
         slider.value = vidaMaxima;
     }
@@ -25,7 +28,17 @@ public class GestionarVida : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        currentLife -= damage;
+        if (currentLife > 0)
+            currentLife -= damage;
+        if (currentLife <= 0)
+            Dead();
         slider.value = currentLife;
+    }
+
+    void Dead()
+    {
+        //currentLife = 0;
+        //slider.value = currentLife;
+        gm.PlayerDead();
     }
 }

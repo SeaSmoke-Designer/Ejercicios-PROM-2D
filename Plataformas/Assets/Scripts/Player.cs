@@ -23,7 +23,11 @@ public class Player : MonoBehaviour
     [SerializeField] private float saltoPared;
     [SerializeField] private float tiempoSaltoPared;
     private SpriteRenderer sprite;
-    [SerializeField] private float empujeHit;
+    [SerializeField] private float tiempoHit;
+    [SerializeField] private float hitEmpujeX;
+    [SerializeField] private float hitEmpujeY;
+    private bool hit;
+    private GameManager gm;
 
 
     private void Awake()
@@ -35,6 +39,7 @@ public class Player : MonoBehaviour
     }
     void Start()
     {
+        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
 
@@ -44,7 +49,7 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
             isJump = true;
 
-        if(!IsGrounded() && isNextToTheWall() && movementH != 0)
+        if (!IsGrounded() && isNextToTheWall() && movementH != 0)
             deslizando = true;
         else
             deslizando = false;
@@ -56,7 +61,7 @@ public class Player : MonoBehaviour
     void FixedUpdate()
     {
         FlipPlayer();
-        if(!saltandoDePared)
+        if (!saltandoDePared && !hit)
             rb.velocity = new Vector2(movementH * speed, rb.velocity.y);
 
         if (isJump)
@@ -75,7 +80,7 @@ public class Player : MonoBehaviour
             DoubleJump();
         else if (deslizando)
             SaltoPared();
-        
+
         isJump = false;
     }
 
@@ -88,7 +93,7 @@ public class Player : MonoBehaviour
         StartCoroutine(CambioSaltoPared());
     }
 
-    IEnumerator CambioSaltoPared() 
+    IEnumerator CambioSaltoPared()
     {
         saltandoDePared = true;
         yield return new WaitForSeconds(tiempoSaltoPared);
@@ -106,7 +111,7 @@ public class Player : MonoBehaviour
         {
             SaltoPared();
         }
-        
+
     }
 
     bool IsGrounded()
@@ -140,26 +145,44 @@ public class Player : MonoBehaviour
 
     public void Hit()
     {
-        animator.SetTrigger("Hit");
-        rb.velocity = new Vector2(empujeHit*-movementH, 4f);
+
+        StartCoroutine(CorStopMover());
         Debug.Log(rb.velocity.x);
-        /*if (facingRight)
-            rb.velocity = new Vector2(-empujeHit, rb.velocity.y);
-        else
-            rb.velocity = new Vector2(empujeHit, rb.velocity.y);*/
     }
 
+    IEnumerator CorStopMover()
+    {
+        hit = true;
+        animator.SetTrigger("Hit");
+        rb.AddForce(new Vector2(hitEmpujeX * -movementH, hitEmpujeY), ForceMode2D.Impulse);
+        yield return new WaitForSeconds(tiempoHit);
+        hit = false;
+    }
+
+    public void AnimaitionDead()
+    {
+        animator.SetTrigger("IsDead");
+
+    }
+    public void DesactivarPlayer()
+    {
+        gameObject.SetActive(false);
+        gm.LanzarAnimacionDeath();
+    }
+
+
+
     /*void OnDrawGizmos()
-   {
-       if (boxCollider2D == null) return;
-       Gizmos.color = Color.red;
+    {
+        if (boxCollider2D == null) return;
+        Gizmos.color = Color.red;
 
-       var cubeOrigin = new Vector2(boxCollider2D.bounds.center.x, boxCollider2D.bounds.center.y - castDistanceY);
-       var cubeSize = new Vector2(boxCollider2D.bounds.size.x - castDistanceX, boxCollider2D.bounds.size.y);
-       Gizmos.DrawWireCube(cubeOrigin, cubeSize);
+        var cubeOrigin = new Vector2(boxCollider2D.bounds.center.x, boxCollider2D.bounds.center.y - castDistanceY);
+        var cubeSize = new Vector2(boxCollider2D.bounds.size.x - castDistanceX, boxCollider2D.bounds.size.y);
+        Gizmos.DrawWireCube(cubeOrigin, cubeSize);
 
-       /*Vector2 rayCastOrigin = new Vector2(boxCollider.bounds.center.x, boxCollider.bounds.min.y);
-       Gizmos.DrawLine(rayCastOrigin, rayCastOrigin - new Vector2(0, castDistance));
-   }*/
+        //Vector2 rayCastOrigin = new Vector2(boxCollider.bounds.center.x, boxCollider.bounds.min.y);
+        //Gizmos.DrawLine(rayCastOrigin, rayCastOrigin - new Vector2(0, castDistance));
+    }*/
 }
 
