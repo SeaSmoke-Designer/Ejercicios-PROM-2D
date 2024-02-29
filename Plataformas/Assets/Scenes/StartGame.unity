@@ -123,6 +123,50 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &692571197
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 692571199}
+  - component: {fileID: 692571198}
+  m_Layer: 0
+  m_Name: StarGame
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &692571198
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 692571197}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c042f34fa1b07b499549dfe20678e94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &692571199
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 692571197}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.5357912, y: 0.48231322, z: -0.14180872}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &826402395
 GameObject:
   m_ObjectHideFlags: 0
@@ -474,7 +518,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Pulsa 'Enter' para empezar
+  m_text: Pulsa 'Space' para empezar
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d4b126c6c85c9d64fbfca7cd2d86d010, type: 2}
   m_sharedMaterial: {fileID: -6626496691110193787, guid: d4b126c6c85c9d64fbfca7cd2d86d010, type: 2}
@@ -1027,3 +1071,4 @@ SceneRoots:
   - {fileID: 1862174364}
   - {fileID: 826402398}
   - {fileID: 1658694780}
+  - {fileID: 692571199}

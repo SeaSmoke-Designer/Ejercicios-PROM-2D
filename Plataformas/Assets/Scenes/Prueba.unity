@@ -564,7 +564,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 10
   m_WholeNumbers: 0
-  m_Value: 2.5
+  m_Value: 3
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1922,7 +1922,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 0
-  m_FillAmount: 0.25
+  m_FillAmount: 0.3
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
@@ -2569,6 +2569,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1753326166}
   m_CullTransparentMesh: 1
+--- !u!1 &1836118909 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1967297843297008754, guid: 05bb429cce78edb42aa77aff23ad6f8c, type: 3}
+  m_PrefabInstance: {fileID: 2256494141389157037}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1836118916
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1836118909}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a42077d98114c23c812d8666000d444, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vidaMaxima: 3
+  slider: {fileID: 328654671}
 --- !u!1 &1876210182
 GameObject:
   m_ObjectHideFlags: 0
@@ -2831,6 +2850,24 @@ RectTransform:
   m_AnchoredPosition: {x: -5.000183, y: 0}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &2002458367 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2810167144726164424, guid: dd602103d7b52a64691b9f31f00bc0af, type: 3}
+  m_PrefabInstance: {fileID: 6033343593027364258}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2002458374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2002458367}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab5af5823ce2e916cb94bb02a6a8c5f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 0.5
 --- !u!1 &2146013481
 GameObject:
   m_ObjectHideFlags: 0
@@ -3020,6 +3057,10 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 4191325797372038705, guid: 05bb429cce78edb42aa77aff23ad6f8c, type: 3}
+      propertyPath: empujeHit
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4191325797372038705, guid: 05bb429cce78edb42aa77aff23ad6f8c, type: 3}
       propertyPath: mapLayer.m_Bits
       value: 128
       objectReference: {fileID: 0}
@@ -3034,7 +3075,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1967297843297008754, guid: 05bb429cce78edb42aa77aff23ad6f8c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1836118916}
   m_SourcePrefab: {fileID: 100100000, guid: 05bb429cce78edb42aa77aff23ad6f8c, type: 3}
 --- !u!1001 &3147727010268904329
 PrefabInstance:
@@ -3233,10 +3277,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy-Turtle-X
       objectReference: {fileID: 0}
+    - target: {fileID: 4587985126950017446, guid: dd602103d7b52a64691b9f31f00bc0af, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2810167144726164424, guid: dd602103d7b52a64691b9f31f00bc0af, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2002458374}
   m_SourcePrefab: {fileID: 100100000, guid: dd602103d7b52a64691b9f31f00bc0af, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

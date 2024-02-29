@@ -23,6 +23,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float saltoPared;
     [SerializeField] private float tiempoSaltoPared;
     private SpriteRenderer sprite;
+    [SerializeField] private float empujeHit;
 
 
     private void Awake()
@@ -135,6 +136,17 @@ public class Player : MonoBehaviour
             sprite.flipX = true;
             facingRight = false;
         }
+    }
+
+    public void Hit()
+    {
+        animator.SetTrigger("Hit");
+        rb.velocity = new Vector2(empujeHit*-movementH, 4f);
+        Debug.Log(rb.velocity.x);
+        /*if (facingRight)
+            rb.velocity = new Vector2(-empujeHit, rb.velocity.y);
+        else
+            rb.velocity = new Vector2(empujeHit, rb.velocity.y);*/
     }
 
     /*void OnDrawGizmos()

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    [Range(0.5f,1)]
     [SerializeField] private float damage;
     private GameManager gm;
     // Start is called before the first frame update
@@ -22,7 +23,7 @@ public class Enemy : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-
+            gm.HitPlayer(damage);
         }
     }
 }
