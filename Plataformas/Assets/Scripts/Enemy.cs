@@ -10,6 +10,7 @@ public class Enemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (gameObject.CompareTag("Death")) damage = 3f;
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
@@ -23,6 +24,7 @@ public class Enemy : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
+            //Debug.Log(damage);
             gm.HitPlayer(damage);
         }
     }

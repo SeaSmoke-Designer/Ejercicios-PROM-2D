@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class GameManager : MonoBehaviour
     private Player player;
     //private Animator animator;
     private Death sceneTransitionDeath;
+    private SceneTransition sceneTransition;
     [SerializeField] private GameObject hubVidas;
     // Start is called before the first frame update
 
@@ -19,8 +21,11 @@ public class GameManager : MonoBehaviour
     {
         player = GameObject.Find("Player").GetComponent<Player>();
         if (player != null) gestionarVida = player.GetComponent<GestionarVida>();
-        var sceneTransitionGO = GameObject.Find("SceneTransitionDeath");
-        if (sceneTransitionGO != null) sceneTransitionDeath = sceneTransitionGO.GetComponent<Death>();
+        var sceneTransitionDeathGO = GameObject.Find("SceneTransitionDeath");
+        if (sceneTransitionDeathGO != null) sceneTransitionDeath = sceneTransitionDeathGO.GetComponent<Death>();
+
+        var sceneTransiotionGO = GameObject.Find("SceneTransition");
+        if (sceneTransiotionGO != null) sceneTransition = sceneTransiotionGO.GetComponent<SceneTransition>();
         //if (sceneTransitionGO != null) animator = sceneTransitionGO.GetComponent<Animator>();
     }
 
@@ -51,6 +56,19 @@ public class GameManager : MonoBehaviour
     public void ActivarHubVidas()
     {
         hubVidas.SetActive(true);
+    }
+
+    public void NextLevel()
+    {
+        player.AnimaitionDead();
+        sceneTransition.CambiarEscena();
+        StartCoroutine(CorEspera());
+    }
+
+    IEnumerator CorEspera()
+    {
+        yield return new WaitForSeconds(1.5f);
+        SceneManager.LoadScene(3);
     }
 
 }

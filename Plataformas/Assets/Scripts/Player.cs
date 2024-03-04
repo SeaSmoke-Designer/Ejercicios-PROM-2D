@@ -147,7 +147,7 @@ public class Player : MonoBehaviour
     {
 
         StartCoroutine(CorStopMover());
-        Debug.Log(rb.velocity.x);
+        //Debug.Log(rb.velocity.x);
     }
 
     IEnumerator CorStopMover()
@@ -166,8 +166,10 @@ public class Player : MonoBehaviour
     }
     public void DesactivarPlayer()
     {
+        Debug.Log("Lanzo animacion");
         gameObject.SetActive(false);
         gm.LanzarAnimacionDeath();
+        
     }
 
 

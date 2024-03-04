@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 280126412606438786}
   - component: {fileID: 1530362565404134717}
   - component: {fileID: 4191325797372038705}
+  - component: {fileID: 7508504977735488904}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -203,3 +204,20 @@ MonoBehaviour:
   castDistanceY: 0.1
   saltoPared: 4
   tiempoSaltoPared: 0.5
+  tiempoHit: 0.5
+  hitEmpujeX: 7
+  hitEmpujeY: 5
+--- !u!114 &7508504977735488904
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1967297843297008754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a42077d98114c23c812d8666000d444, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vidaMaxima: 3
+  slider: {fileID: 0}

@@ -10,6 +10,7 @@ TagManager:
   - Saw
   - Turtle
   - SpikeHead
+  - Death
   layers:
   - Default
   - TransparentFX

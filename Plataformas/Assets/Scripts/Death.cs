@@ -19,8 +19,12 @@ public class Death : MonoBehaviour
     void Update()
     {
         if (isDead && animacionFinalizada)
+        {
             if (Input.anyKey)
                 ChangeScene();
+            
+        }
+           
     }
 
     public void Muerte()
@@ -42,5 +46,6 @@ public class Death : MonoBehaviour
     {
         //Revisar
         animacionFinalizada = true;
+        //Debug.Log(animacionFinalizada);
     }
 }
