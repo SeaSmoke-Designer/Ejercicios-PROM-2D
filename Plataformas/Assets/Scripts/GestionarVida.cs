@@ -16,8 +16,7 @@ public class GestionarVida : MonoBehaviour
     void Start()
     {
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
-        currentLife = vidaMaxima;
-        slider.value = vidaMaxima;
+        
     }
 
     // Update is called once per frame
@@ -40,5 +39,22 @@ public class GestionarVida : MonoBehaviour
         //currentLife = 0;
         //slider.value = currentLife;
         gm.PlayerDead();
+    }
+
+    public float GetCurrentLife() => currentLife;
+
+    public void SetCurrentLife(float value)
+    {
+        currentLife = value;
+        slider.value = currentLife;
+    }
+
+
+    public float GetVidaMaxima() => vidaMaxima;
+
+    public void AplicarVidaMaxima()
+    {
+        currentLife = vidaMaxima;
+        slider.value = vidaMaxima;
     }
 }

@@ -207,6 +207,11 @@ MonoBehaviour:
   tiempoHit: 0.5
   hitEmpujeX: 7
   hitEmpujeY: 5
+  jumpSound: {fileID: 8300000, guid: 677363329b73bc940b39aa6227f5beca, type: 3}
+  doubleJumpSound: {fileID: 8300000, guid: 7166237e7d24c924f976d71491e106ba, type: 3}
+  hitSound: {fileID: 8300000, guid: 6bc720525cd1fbf47ab5767976d3587b, type: 3}
+  desapareceSound: {fileID: 8300000, guid: b5d7f9102d54abe41b6cfb6245f2ce95, type: 3}
+  saltoParedSound: {fileID: 8300000, guid: 71563930884178f4dae28c618757f3e1, type: 3}
 --- !u!114 &7508504977735488904
 MonoBehaviour:
   m_ObjectHideFlags: 0

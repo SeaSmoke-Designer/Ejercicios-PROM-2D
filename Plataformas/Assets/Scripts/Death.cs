@@ -7,6 +7,7 @@ public class Death : MonoBehaviour
 {
     private Animator animator;
     private bool isDead;
+    [SerializeField] private AudioClip darkSoulsSound;
 
     private bool animacionFinalizada;
     void Start()
@@ -22,13 +23,13 @@ public class Death : MonoBehaviour
         {
             if (Input.anyKey)
                 ChangeScene();
-            
         }
            
     }
 
     public void Muerte()
     {
+        //AudioManager.Instance.PlayClip(darkSoulsSound);
         animator.SetTrigger("IsDead");
         isDead = true;
     }
@@ -37,15 +38,14 @@ public class Death : MonoBehaviour
 
     void ChangeScene()
     {
-        Debug.Log("Cambiar escena");
-        //Save.Instance.die = true;
+        AudioManager.Instance.StopMusic();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void FinishAnimation()
     {
-        //Revisar
         animacionFinalizada = true;
-        //Debug.Log(animacionFinalizada);
     }
+
+    public void StartMusic() => AudioManager.Instance.PlayClip(darkSoulsSound);
 }

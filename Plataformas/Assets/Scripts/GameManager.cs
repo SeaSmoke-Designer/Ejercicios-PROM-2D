@@ -10,15 +10,15 @@ public class GameManager : MonoBehaviour
     //private Animator animator;
     private Death sceneTransitionDeath;
     private SceneTransition sceneTransition;
+    private UserDataManager userDataManager;
     [SerializeField] private GameObject hubVidas;
-    // Start is called before the first frame update
+    [SerializeField] private AudioClip winSound;
+    
 
     private void Awake()
     {
-        hubVidas.SetActive(false);
-    }
-    void Start()
-    {
+        //hubVidas.SetActive(false);
+        userDataManager = GameObject.Find("UserDataManager").GetComponent<UserDataManager>();
         player = GameObject.Find("Player").GetComponent<Player>();
         if (player != null) gestionarVida = player.GetComponent<GestionarVida>();
         var sceneTransitionDeathGO = GameObject.Find("SceneTransitionDeath");
@@ -26,7 +26,30 @@ public class GameManager : MonoBehaviour
 
         var sceneTransiotionGO = GameObject.Find("SceneTransition");
         if (sceneTransiotionGO != null) sceneTransition = sceneTransiotionGO.GetComponent<SceneTransition>();
-        //if (sceneTransitionGO != null) animator = sceneTransitionGO.GetComponent<Animator>();
+    }
+    void Start()
+    {
+        if (userDataManager.IsDead)
+            AudioManager.Instance.StartAgain();
+
+        if (SceneManager.GetActiveScene().buildIndex == 1)
+        {
+            userDataManager.Vidas = gestionarVida.GetVidaMaxima();
+            gestionarVida.AplicarVidaMaxima();
+        }
+        else if (SceneManager.GetActiveScene().buildIndex == 2)
+        {
+            AudioManager.Instance.StartAgain();
+            if (userDataManager.IsDead)
+            {
+                userDataManager.Vidas = gestionarVida.GetVidaMaxima();
+                gestionarVida.AplicarVidaMaxima();
+            }
+            else
+                gestionarVida.SetCurrentLife(userDataManager.Vidas);
+        }
+
+        userDataManager.IsDead = false;
     }
 
     // Update is called once per frame
@@ -39,17 +62,20 @@ public class GameManager : MonoBehaviour
     {
         player.Hit();
         gestionarVida.TakeDamage(damage);
+        userDataManager.Vidas = gestionarVida.GetCurrentLife();
     }
 
     public void PlayerDead()
     {
-        player.AnimaitionDead();
+        AudioManager.Instance.StopMusic();
+        player.AnimationDesaparecer();
     }
 
     public void LanzarAnimacionDeath()
     {
         hubVidas.SetActive(false);
         sceneTransitionDeath.Muerte();
+        userDataManager.IsDead = true;
         //animator.SetTrigger("IsDead");
     }
 
@@ -60,15 +86,24 @@ public class GameManager : MonoBehaviour
 
     public void NextLevel()
     {
-        player.AnimaitionDead();
+        AudioManager.Instance.StopMusic();
+        AudioManager.Instance.PlayClip(winSound);
+        player.AnimationDesaparecer();
+        userDataManager.Vidas = gestionarVida.GetCurrentLife();
+        hubVidas.SetActive(false);
         sceneTransition.CambiarEscena();
-        StartCoroutine(CorEspera());
+        StartCoroutine(CorEsperaCambioEscena());
     }
 
-    IEnumerator CorEspera()
+    IEnumerator CorEsperaCambioEscena()
     {
-        yield return new WaitForSeconds(1.5f);
-        SceneManager.LoadScene(3);
+        yield return new WaitForSeconds(winSound.length);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    }
+
+    public bool StayAlive()
+    {
+        return userDataManager.Vidas > 0;
     }
 
 }

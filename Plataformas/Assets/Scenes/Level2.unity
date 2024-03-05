@@ -1366,6 +1366,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 428156762749178999, guid: fee9edd4ad68a6248881ca52310508d2, type: 3}
+      propertyPath: darkSoulsSound
+      value: 
+      objectReference: {fileID: 8300000, guid: da0c43ec1fa501743b78348474450555, type: 3}
     - target: {fileID: 6018000406825869590, guid: fee9edd4ad68a6248881ca52310508d2, type: 3}
       propertyPath: m_LocalPosition.x
       value: 955.8117

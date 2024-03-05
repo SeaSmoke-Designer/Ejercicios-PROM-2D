@@ -379,3 +379,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b92cb8aff11310efb22949eb5896b6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  darkSoulsSound: {fileID: 8300000, guid: da0c43ec1fa501743b78348474450555, type: 3}

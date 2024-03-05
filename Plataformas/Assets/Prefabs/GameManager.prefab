@@ -45,3 +45,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hubVidas: {fileID: 0}
+  winSound: {fileID: 8300000, guid: 5908a6ffe99fafb468555bb2525fed5a, type: 3}

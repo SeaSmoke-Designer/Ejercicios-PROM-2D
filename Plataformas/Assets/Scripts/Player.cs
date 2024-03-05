@@ -5,29 +5,40 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    private Rigidbody2D rb;
+    [Header("Parametros velocidad Player")]
     [SerializeField] private float speed;
     [SerializeField] private float doubleJumpSpeed;
+    [SerializeField] private float jumpSpeed;
+    private Rigidbody2D rb;
     private float movementH;
     private bool isJump;
-    [SerializeField] private float jumpSpeed;
     private bool isDoubleJump;
     private BoxCollider2D boxCollider2D;
     private Animator animator;
+    [Header("Map Layer")]
     [SerializeField] LayerMask mapLayer;
+    [Header("BoxCast")]
     [SerializeField] private float castDistanceX;
     [SerializeField] private float castDistanceY;
     private bool facingRight;
     private bool saltandoDePared;
     private bool deslizando;
+    [Header("Parametros salto pared")]
     [SerializeField] private float saltoPared;
     [SerializeField] private float tiempoSaltoPared;
     private SpriteRenderer sprite;
+    [Header("Parametros hit")]
     [SerializeField] private float tiempoHit;
     [SerializeField] private float hitEmpujeX;
     [SerializeField] private float hitEmpujeY;
     private bool hit;
     private GameManager gm;
+    [Header("Sonidos")]
+    [SerializeField] private AudioClip jumpSound;
+    [SerializeField] private AudioClip doubleJumpSound;
+    [SerializeField] private AudioClip hitSound;
+    [SerializeField] private AudioClip desapareceSound;
+    [SerializeField] private AudioClip saltoParedSound;
 
 
     private void Awake()
@@ -72,6 +83,7 @@ public class Player : MonoBehaviour
     {
         if (IsGrounded())
         {
+            AudioManager.Instance.PlayClip(jumpSound);
             animator.SetTrigger("IsJump");
             rb.velocity = new Vector2(rb.velocity.x, jumpSpeed);
             isDoubleJump = true;
@@ -86,6 +98,7 @@ public class Player : MonoBehaviour
 
     void SaltoPared() //Saltar desde la pared
     {
+        AudioManager.Instance.PlayClip(saltoParedSound);
         isDoubleJump = false;
         animator.SetTrigger("DoubleJump");
         rb.velocity = new Vector2(saltoPared * -movementH, doubleJumpSpeed);
@@ -103,6 +116,7 @@ public class Player : MonoBehaviour
     {
         if (!deslizando)
         {
+            AudioManager.Instance.PlayClip(doubleJumpSound);
             animator.SetTrigger("DoubleJump");
             rb.velocity = new Vector2(rb.velocity.x, doubleJumpSpeed);
             isDoubleJump = false;
@@ -145,13 +159,12 @@ public class Player : MonoBehaviour
 
     public void Hit()
     {
-
         StartCoroutine(CorStopMover());
-        //Debug.Log(rb.velocity.x);
     }
 
     IEnumerator CorStopMover()
     {
+        AudioManager.Instance.PlayClip(hitSound);
         hit = true;
         animator.SetTrigger("Hit");
         rb.AddForce(new Vector2(hitEmpujeX * -movementH, hitEmpujeY), ForceMode2D.Impulse);
@@ -159,16 +172,20 @@ public class Player : MonoBehaviour
         hit = false;
     }
 
-    public void AnimaitionDead()
+    public void AnimationDesaparecer()
     {
+        AudioManager.Instance.PlayClip(desapareceSound);
         animator.SetTrigger("IsDead");
-
     }
     public void DesactivarPlayer()
     {
-        Debug.Log("Lanzo animacion");
+        //Debug.Log("Lanzo animacion");
         gameObject.SetActive(false);
-        gm.LanzarAnimacionDeath();
+        if (!gm.StayAlive())
+        {
+            gm.LanzarAnimacionDeath();
+        }
+        
         
     }
 
