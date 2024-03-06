@@ -29,27 +29,27 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
-        if (userDataManager.IsDead)
+        if (userDataManager.isDead)
             AudioManager.Instance.StartAgain();
 
         if (SceneManager.GetActiveScene().buildIndex == 1)
         {
-            userDataManager.Vidas = gestionarVida.GetVidaMaxima();
+            userDataManager.vidas = gestionarVida.GetVidaMaxima();
             gestionarVida.AplicarVidaMaxima();
         }
         else if (SceneManager.GetActiveScene().buildIndex == 2)
         {
             AudioManager.Instance.StartAgain();
-            if (userDataManager.IsDead)
+            if (userDataManager.isDead)
             {
-                userDataManager.Vidas = gestionarVida.GetVidaMaxima();
+                userDataManager.vidas = gestionarVida.GetVidaMaxima();
                 gestionarVida.AplicarVidaMaxima();
             }
             else
-                gestionarVida.SetCurrentLife(userDataManager.Vidas);
+                gestionarVida.SetCurrentLife(userDataManager.vidas);
         }
 
-        userDataManager.IsDead = false;
+        userDataManager.isDead = false;
     }
 
     // Update is called once per frame
@@ -62,7 +62,7 @@ public class GameManager : MonoBehaviour
     {
         player.Hit();
         gestionarVida.TakeDamage(damage);
-        userDataManager.Vidas = gestionarVida.GetCurrentLife();
+        userDataManager.vidas = gestionarVida.GetCurrentLife();
     }
 
     public void PlayerDead()
@@ -75,7 +75,7 @@ public class GameManager : MonoBehaviour
     {
         hubVidas.SetActive(false);
         sceneTransitionDeath.Muerte();
-        userDataManager.IsDead = true;
+        userDataManager.isDead = true;
         //animator.SetTrigger("IsDead");
     }
 
@@ -89,7 +89,7 @@ public class GameManager : MonoBehaviour
         AudioManager.Instance.StopMusic();
         AudioManager.Instance.PlayClip(winSound);
         player.AnimationDesaparecer();
-        userDataManager.Vidas = gestionarVida.GetCurrentLife();
+        userDataManager.vidas = gestionarVida.GetCurrentLife();
         hubVidas.SetActive(false);
         sceneTransition.CambiarEscena();
         StartCoroutine(CorEsperaCambioEscena());
@@ -103,7 +103,7 @@ public class GameManager : MonoBehaviour
 
     public bool StayAlive()
     {
-        return userDataManager.Vidas > 0;
+        return userDataManager.vidas > 0;
     }
 
 }

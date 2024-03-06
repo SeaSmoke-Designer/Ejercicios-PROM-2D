@@ -29,7 +29,6 @@ public class Death : MonoBehaviour
 
     public void Muerte()
     {
-        //AudioManager.Instance.PlayClip(darkSoulsSound);
         animator.SetTrigger("IsDead");
         isDead = true;
     }
@@ -42,10 +41,6 @@ public class Death : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
-    public void FinishAnimation()
-    {
-        animacionFinalizada = true;
-    }
-
+    public void FinishAnimation() => animacionFinalizada = true;
     public void StartMusic() => AudioManager.Instance.PlayClip(darkSoulsSound);
 }

@@ -19,12 +19,7 @@ public class SceneTransition : MonoBehaviour
 
     }
 
-    public void TerminaTransicion()
-    {
-        gm.ActivarHubVidas();
-    }
+    public void TerminaTransicion() => gm.ActivarHubVidas();
 
-    public void CambiarEscena() {
-        animator.SetTrigger("ChangeScene");
-    }
+    public void CambiarEscena() => animator.SetTrigger("ChangeScene");
 }

@@ -4,31 +4,11 @@ using UnityEngine;
 
 public class UserDataManager : Singleton<UserDataManager>
 {
-    //private float vidas;
-
-    //public float vidas
-    //{
-    //    get => vidas;
-    //    set => vidas = value;
-    //}
-
-    //public float vidas { get; set;}
-
-    private float vidas;
-
-    public float Vidas
+    public float vidas { get; set; }
+    public bool isDead { get; set; }
+    public void ResetValues()
     {
-        get { return vidas; }
-        set { vidas = value; }
+        vidas = 3f;
+        isDead = false;
     }
-
-    private bool isDead;
-
-    public bool IsDead
-    {
-        get { return isDead; }
-        set { isDead = value; }
-    }
-
-
 }

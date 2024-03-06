@@ -20,7 +20,6 @@ public class AudioManager : Singleton<AudioManager>
     public void StopMusic()
     {
         audioSource.Stop();
-        //GetComponent<AudioSource>().clip = null;
     }
 
     public void StartAgain()
@@ -29,5 +28,10 @@ public class AudioManager : Singleton<AudioManager>
         audioSource.Play();
     }
 
-    //public float IsPlaying() => GetComponent<AudioSource>().;
+    public void PlayFinalFantasyMusic()
+    {
+        audioSource.clip = musicFinalFantasy;
+        audioSource.Play();
+    }
+
 }
