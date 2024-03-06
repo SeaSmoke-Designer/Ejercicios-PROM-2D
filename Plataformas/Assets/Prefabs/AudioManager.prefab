@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   musicCastlevania: {fileID: 8300000, guid: 87c0e54ca4a9bc34eb71c88e2b5ebb1f, type: 3}
-  musicFinalFantasy: {fileID: 8300000, guid: 9d4a9343a9c570b4b88b12f20e8d364f, type: 3}
+  musicFinalFantasy: {fileID: 8300000, guid: e6ed12c01d2f5e2478467af8d94249c9, type: 3}
 --- !u!82 &4807459798663808248
 AudioSource:
   m_ObjectHideFlags: 0
