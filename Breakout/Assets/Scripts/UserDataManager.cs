@@ -2,16 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UserDataManager : MonoBehaviour
+public class UserDataManager : Singleton<UserDataManager>
 {
     public int level { get; set; }
     public int vidas { get; set; }
     public int columnas { get; set; }
     public int filas { get; set; }
+    public bool levelProcedural { get; set; }
 
     private void Start()
     {
+        //levelProcedural = true; //Quitar mas adelante
         level = 1;
+        vidas = 3;
     }
 
     public void CambiarColumnasFilas(int c, int f)

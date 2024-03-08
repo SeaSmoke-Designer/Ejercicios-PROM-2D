@@ -11,8 +11,9 @@ public class GestionarLadrillos : MonoBehaviour
     [SerializeField] private List<Sprite> spritesYellow;
     [SerializeField] private List<Sprite> spritesGreen;
     [SerializeField] private List<Sprite> spritesViolet;
-    [Range(1, 4)]
-    [SerializeField] private int vidaLadrillo;
+    //[Range(1, 4)]
+    //[SerializeField] 
+    private int vidaLadrillo;
 
     private SpriteRenderer spriteRenderer;
 
@@ -24,20 +25,30 @@ public class GestionarLadrillos : MonoBehaviour
     private GameObject powerUpBola;
     private GameObject powerUpVida;
     private GameManager gm;
+    private UserDataManager userDataManager;
+    private bool procedural;
+
+    [SerializeField] bool aleatorio;
 
     //[SerializeField] private TagValueType tagLadrillo;
     // Start is called before the first frame update
 
     private void Awake()
     {
-        //gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+        userDataManager = GameObject.Find("UserDataManager").GetComponent<UserDataManager>();
+        if (userDataManager != null) procedural = userDataManager.levelProcedural;
+        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-        ElegirTipo();
-        //gm.LlenarListaLadrillos(gameObject);
+
+        gm.LlenarListaLadrillos(gameObject);
     }
     void Start()
     {
-
+        //vidaLadrillo = 1;
+        if (aleatorio)
+            ElegirTipoAleatorio();
+        else
+            ElegirTipo();
     }
 
     // Update is called once per frame
@@ -47,6 +58,20 @@ public class GestionarLadrillos : MonoBehaviour
     }
 
     void ElegirTipo()
+    {
+        if (!procedural)
+            vidaLadrillo = Random.Range(1, 5);
+
+        SpritesLadrillos();
+    }
+
+    void ElegirTipoAleatorio()
+    {
+        vidaLadrillo = Random.Range(1, 5);
+
+    }
+
+    void SpritesLadrillos()
     {
         switch (gameObject.tag)
         {
@@ -113,6 +138,8 @@ public class GestionarLadrillos : MonoBehaviour
 
 
     bool ProbabilidadPowerUp() => Random.value < probabilidadPowerUp;
+
+    public void SetVidaLadrillo(int value) => vidaLadrillo = value;
 
 
     /*void CompribarVida()

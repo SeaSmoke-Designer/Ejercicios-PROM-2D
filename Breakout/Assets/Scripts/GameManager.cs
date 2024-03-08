@@ -27,9 +27,18 @@ public class GameManager : MonoBehaviour
 
     private List<GameObject> balls;
     private PowerUp[] powerUps;
+
+    private UserDataManager userDataManager;
+
+    private void Awake()
+    {
+        userDataManager = GameObject.Find("UserDataManager").GetComponent<UserDataManager>();
+        state = eStates.Ready;
+        vidas = userDataManager.vidas;
+    }
     void Start()
     {
-        state = eStates.Ready;
+
         paddle = Instantiate(paddlePrefab);
         balls = new List<GameObject>();
         ball = Instantiate(ballPrefab);
@@ -37,7 +46,7 @@ public class GameManager : MonoBehaviour
         //ballScript = GameObject.Find("Ball").GetComponent<Ball>();
         textLose.SetActive(false);
         textWin.SetActive(false);
-        vidas = 3;
+        //vidas = 3;
     }
 
 
@@ -85,7 +94,7 @@ public class GameManager : MonoBehaviour
         DestroyObjects();
         textWin.SetActive(true);
         if (Input.GetKeyDown(KeyCode.Space))
-            SceneManager.LoadScene(2);
+            SceneManager.LoadScene(3);
     }
 
     void UpdateGameOver()
@@ -100,7 +109,7 @@ public class GameManager : MonoBehaviour
 
     public void ResetBall(GameObject gameObject)
     {
-        
+
         for (int i = 0; i < balls.Count; i++)
         {
             if (gameObject == balls[i])
@@ -115,9 +124,9 @@ public class GameManager : MonoBehaviour
             //balls.TrimExcess();
             QuitarVida();
         }
-            
-        
-            
+
+
+
     }
     void QuitarVida()
     {
@@ -125,24 +134,24 @@ public class GameManager : MonoBehaviour
         CambiarSpritesNoLifes();
         if (vidas > 0)
         {
-            if(balls.Count == 0)
+            if (balls.Count == 0)
             {
                 ball = Instantiate(ballPrefab);
                 balls.Add(ball);
                 powerUps = FindObjectsOfType<PowerUp>();
                 //powerUps.Add(GameObject.Find("PowerUpVida"));
-                if(powerUps != null)
+                if (powerUps != null)
                 {
                     foreach (PowerUp item in powerUps)
                     {
                         Destroy(item);
                     }
                 }
-                
-                
+
+
                 state = eStates.Ready;
             }
-                
+
         }
         else
             state = eStates.GameOver;
@@ -209,7 +218,7 @@ public class GameManager : MonoBehaviour
             if (balls.Count > 0)
                 foreach (GameObject item in balls)
                     Destroy(item);
-                
+
             balls.Clear();
             Debug.Log("Bolas destriudas");
             if (ladrillosList.Count > 0)
@@ -220,7 +229,7 @@ public class GameManager : MonoBehaviour
             foreach (GameObject item in spritesLifes)
                 Destroy(item);
             spritesLifes.Clear();
-            
+
         }
 
     }
@@ -242,7 +251,7 @@ public class GameManager : MonoBehaviour
         balls.Add(ball);
         ball.GetComponent<Ball>().Launch();
         Debug.Log("Launch");
-        
+
     }
 
     public bool Win()

@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class ProcedimientoProcedural : MonoBehaviour
 {
     [SerializeField] private List<GameObject> ladrillosPrefabs;
@@ -24,7 +24,9 @@ public class ProcedimientoProcedural : MonoBehaviour
 
     private float posicionEnX;
     private float posicionEnY;
-    
+
+    private int vidaLadrillo;
+
     //private float num;
     //private float num2;
 
@@ -39,13 +41,14 @@ public class ProcedimientoProcedural : MonoBehaviour
 
     private void Awake()
     {
-        //userDataManager = GameObject.Find("UserDataManager").GetComponent<UserDataManager>();
+        userDataManager = GameObject.Find("UserDataManager").GetComponent<UserDataManager>();
+
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        //nivel = userDataManager.level;
+        nivel = userDataManager.level;
         MirarNivel();
         SpwanLadrillos();
     }
@@ -53,31 +56,21 @@ public class ProcedimientoProcedural : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       /* switch (nivel)
-        {
-            //Level 1 empieza con lo minimo
-            case 3:
-                //6x3
-                break;
-            case 5:
-                //8x4
-                break;
-            case 8:
-                //9x5
-                break;
-            case 10:
-                //10x6
-                break;
-
-        }*/
+        if (Input.GetKeyDown(KeyCode.N))
+            NextLevel();
     }
 
-    void ElegirColor()
+    void ElegirColorYVida()
     {
         //do
         //{
         colorLadrillo = Random.Range(0, 5);
-        Debug.Log(colorLadrillo);
+        if (nivel >= 8)
+            vidaLadrillo = Random.Range(3, 5);
+        else
+            vidaLadrillo = Random.Range(1, 5);
+        //Debug.Log(vidaLadrillo);
+        //Debug.Log(colorLadrillo);
         //} while ();
 
     }
@@ -119,22 +112,22 @@ public class ProcedimientoProcedural : MonoBehaviour
                 //10x6
                 break;
             default:
-                //columnas = userDataManager.columnas;
-                //filas = userDataManager.filas;
+                columnas = userDataManager.columnas;
+                filas = userDataManager.filas;
                 break;
         }
-        //userDataManager.CambiarColumnasFilas(columnas, filas);
+        userDataManager.CambiarColumnasFilas(columnas, filas);
     }
 
     void SpwanLadrillos()
     {
         for (int i = 0; i < filas; i++)
         {
-            ElegirColor();
+            ElegirColorYVida();
 
             float lerpYValue = i / (filas - 1f);
             float yPos = Mathf.Lerp(minY, maxY, lerpYValue);
-            Debug.Log(yPos);
+            //Debug.Log(yPos);
             for (int j = 0; j < columnas; j++)
             {
 
@@ -142,9 +135,17 @@ public class ProcedimientoProcedural : MonoBehaviour
                 float xPos = Mathf.Lerp(-7.1f, 7, lerpXValue);
 
                 GameObject ladrillo = Instantiate(ladrillosPrefabs[colorLadrillo]);
+                ladrillo.GetComponent<GestionarLadrillos>().SetVidaLadrillo(vidaLadrillo);
                 ladrillo.transform.position = new Vector2(xPos, yPos);
+                Debug.Log("Tag: " + ladrillo.tag + " Vida: " + vidaLadrillo);
 
             }
         }
+    }
+
+    void NextLevel()
+    {
+        userDataManager.level++;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
