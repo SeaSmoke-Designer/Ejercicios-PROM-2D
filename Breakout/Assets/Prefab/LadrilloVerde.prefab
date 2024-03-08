@@ -122,7 +122,7 @@ MonoBehaviour:
   - {fileID: -1780478220, guid: 17fe1af548554214ca68fa7681f3a117, type: 3}
   - {fileID: 1185443583, guid: 17fe1af548554214ca68fa7681f3a117, type: 3}
   - {fileID: -1734105057, guid: 17fe1af548554214ca68fa7681f3a117, type: 3}
-  vidaLadrillo: 3
+  vidaLadrillo: 1
   probabilidadPowerUp: 0.5
   powerUpBolaPrefab: {fileID: 8892686974303107422, guid: aeedc5af2bfbc3f4380adecf56e2648a, type: 3}
   powerUpVidaPrefab: {fileID: 6820630229417167470, guid: c2128fa3f0910e043b88c1fdc9b38d49, type: 3}

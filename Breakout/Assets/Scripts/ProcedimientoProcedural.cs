@@ -7,14 +7,15 @@ public class ProcedimientoProcedural : MonoBehaviour
     [SerializeField] private List<GameObject> ladrillosPrefabs;
     private GameObject ladrilloPrefab;
     //[SerializeField] private float maxFilas;
-    private float filas;
-    private float columnas;
+    private int filas;
+    private int columnas;
 
     private float maxLadrillos = 8;
 
-    private int nivel;
+    [SerializeField] private int nivel;
     private bool nivelGenerado;
     private int colorLadrillo;
+    private UserDataManager userDataManager;
 
     [SerializeField] private float maxY; //3.5f
     [SerializeField] private float minY; //-1.5f
@@ -23,6 +24,9 @@ public class ProcedimientoProcedural : MonoBehaviour
 
     private float posicionEnX;
     private float posicionEnY;
+    
+    //private float num;
+    //private float num2;
 
     //10x6 es el maximo. 10 columnas y 6 filas.
     //3x2 es el minimo. 3 columnas y 2 filas.
@@ -33,27 +37,23 @@ public class ProcedimientoProcedural : MonoBehaviour
 
     //Aclaracion, el orden de arriba quiere decir lo siguiente: Cada nivel puede generar 3 columnas y 2 filas por ejemplo, asi sucesivamente 
 
+    private void Awake()
+    {
+        //userDataManager = GameObject.Find("UserDataManager").GetComponent<UserDataManager>();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        nivel = 1;
-        filas = 2;
-        columnas = 3;
-
-        for (int i = 0; i < filas; i++)
-        {
-            ElegirColor();
-            for (int j = 0; j < columnas; j++)
-            {
-                Instantiate(ladrillosPrefabs[colorLadrillo]);
-            }//Aplicar el Lerp
-        }
+        //nivel = userDataManager.level;
+        MirarNivel();
+        SpwanLadrillos();
     }
 
     // Update is called once per frame
     void Update()
     {
-        switch (nivel)
+       /* switch (nivel)
         {
             //Level 1 empieza con lo minimo
             case 3:
@@ -69,14 +69,15 @@ public class ProcedimientoProcedural : MonoBehaviour
                 //10x6
                 break;
 
-        }
+        }*/
     }
 
     void ElegirColor()
     {
         //do
         //{
-        colorLadrillo = Random.Range(0, 6);
+        colorLadrillo = Random.Range(0, 5);
+        Debug.Log(colorLadrillo);
         //} while ();
 
     }
@@ -87,5 +88,63 @@ public class ProcedimientoProcedural : MonoBehaviour
     void ElegirPosicionEnX()
     {
 
+    }
+
+    void MirarNivel()
+    {
+        switch (nivel)
+        {
+            case 1:
+                columnas = 3;
+                filas = 2;
+                break;
+            case 3:
+                columnas = 6;
+                filas = 3;
+                //6x3
+                break;
+            case 5:
+                columnas = 8;
+                filas = 4;
+                //8x4
+                break;
+            case 8:
+                columnas = 9;
+                filas = 5;
+                //9x5
+                break;
+            case 10:
+                columnas = 10;
+                filas = 6;
+                //10x6
+                break;
+            default:
+                //columnas = userDataManager.columnas;
+                //filas = userDataManager.filas;
+                break;
+        }
+        //userDataManager.CambiarColumnasFilas(columnas, filas);
+    }
+
+    void SpwanLadrillos()
+    {
+        for (int i = 0; i < filas; i++)
+        {
+            ElegirColor();
+
+            float lerpYValue = i / (filas - 1f);
+            float yPos = Mathf.Lerp(minY, maxY, lerpYValue);
+            Debug.Log(yPos);
+            for (int j = 0; j < columnas; j++)
+            {
+
+                float lerpXValue = j / (columnas - 1f);
+                float xPos = Mathf.Lerp(-7.1f, 7, lerpXValue);
+
+                GameObject ladrillo = Instantiate(ladrillosPrefabs[colorLadrillo]);
+                ladrillo.transform.position = new Vector2(xPos, yPos);
+
+            }
+        }
     }
 }

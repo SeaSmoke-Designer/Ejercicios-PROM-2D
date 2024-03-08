@@ -488,10 +488,11 @@ MonoBehaviour:
   - {fileID: 7209625568125762068, guid: dd7a8958f2baf3c17ae6c05b95913545, type: 3}
   - {fileID: 5331974211723533977, guid: 8592f9f21e65cb26a9b37092e00a4960, type: 3}
   - {fileID: 8791795650901067832, guid: d0eb21451bafe2332b8289bc8c34a755, type: 3}
-  maxY: 0
-  minY: 0
-  maxX: 0
-  minX: 0
+  nivel: 10
+  maxY: 3.5
+  minY: -1.5
+  maxX: 7
+  minX: -7.1
 --- !u!4 &208918063
 Transform:
   m_ObjectHideFlags: 0
