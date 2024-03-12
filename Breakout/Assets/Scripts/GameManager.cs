@@ -136,25 +136,29 @@ public class GameManager : MonoBehaviour
         {
             if (balls.Count == 0)
             {
+                EliminarPowerUps();
                 ball = Instantiate(ballPrefab);
                 balls.Add(ball);
-                powerUps = FindObjectsOfType<PowerUp>();
-                //powerUps.Add(GameObject.Find("PowerUpVida"));
-                if (powerUps != null)
-                {
-                    foreach (PowerUp item in powerUps)
-                    {
-                        Destroy(item);
-                    }
-                }
-
-
                 state = eStates.Ready;
             }
 
         }
         else
             state = eStates.GameOver;
+    }
+
+    void EliminarPowerUps()
+    {
+        powerUps = FindObjectsOfType<PowerUp>();
+        //powerUps.Add(GameObject.Find("PowerUpVida"));
+        if (powerUps != null)
+        {
+            foreach (PowerUp item in powerUps)
+            {
+                Destroy(item);
+                Debug.Log("Elimino PowerUp");
+            }
+        }
     }
     void CambiarSpritesNoLifes()
     {

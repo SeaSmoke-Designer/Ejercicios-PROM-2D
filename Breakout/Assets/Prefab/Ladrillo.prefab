@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6675955614306536438}
   - component: {fileID: 926959033234381193}
-  - component: {fileID: 3135410451930141196}
   - component: {fileID: -2327055225434818094}
+  - component: {fileID: 7728711266194957385}
   m_Layer: 0
   m_Name: Ladrillo
   m_TagString: Untagged
@@ -86,42 +86,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &3135410451930141196
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8510303693314846440}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5da66a7b46e248507911b732f5714795, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sprites:
-  - {fileID: 759230057, guid: 17fe1af548554214ca68fa7681f3a117, type: 3}
-  - {fileID: 1052440398, guid: 17fe1af548554214ca68fa7681f3a117, type: 3}
-  - {fileID: -741859577, guid: 17fe1af548554214ca68fa7681f3a117, type: 3}
-  - {fileID: 823261362, guid: 17fe1af548554214ca68fa7681f3a117, type: 3}
-  - {fileID: 1372631427, guid: 17fe1af548554214ca68fa7681f3a117, type: 3}
-  - {fileID: 324582100, guid: 17fe1af548554214ca68fa7681f3a117, type: 3}
-  - {fileID: -976811021, guid: 17fe1af548554214ca68fa7681f3a117, type: 3}
-  - {fileID: -1062346168, guid: 17fe1af548554214ca68fa7681f3a117, type: 3}
-  - {fileID: -841511665, guid: 17fe1af548554214ca68fa7681f3a117, type: 3}
-  - {fileID: -2116094542, guid: 17fe1af548554214ca68fa7681f3a117, type: 3}
-  - {fileID: -1037896596, guid: 17fe1af548554214ca68fa7681f3a117, type: 3}
-  - {fileID: 1250896280, guid: 17fe1af548554214ca68fa7681f3a117, type: 3}
-  - {fileID: -687047056, guid: 17fe1af548554214ca68fa7681f3a117, type: 3}
-  - {fileID: -1780478220, guid: 17fe1af548554214ca68fa7681f3a117, type: 3}
-  - {fileID: 1185443583, guid: 17fe1af548554214ca68fa7681f3a117, type: 3}
-  - {fileID: -1734105057, guid: 17fe1af548554214ca68fa7681f3a117, type: 3}
-  - {fileID: 1622744939, guid: 17fe1af548554214ca68fa7681f3a117, type: 3}
-  - {fileID: -1995767069, guid: 17fe1af548554214ca68fa7681f3a117, type: 3}
-  - {fileID: 1486010204, guid: 17fe1af548554214ca68fa7681f3a117, type: 3}
-  - {fileID: 1058438752, guid: 17fe1af548554214ca68fa7681f3a117, type: 3}
-  spriteRenderer: {fileID: 926959033234381193}
-  powerUpVidaPrefab: {fileID: 6820630229417167470, guid: c2128fa3f0910e043b88c1fdc9b38d49, type: 3}
-  powerUpBolaPrefab: {fileID: 8892686974303107422, guid: aeedc5af2bfbc3f4380adecf56e2648a, type: 3}
 --- !u!61 &-2327055225434818094
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -167,3 +131,44 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.32, y: 0.16}
   m_EdgeRadius: 0
+--- !u!114 &7728711266194957385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8510303693314846440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5351e9a223f04109f9e810e3e838bfaf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spritesBlue:
+  - {fileID: 759230057, guid: 17fe1af548554214ca68fa7681f3a117, type: 3}
+  - {fileID: 1052440398, guid: 17fe1af548554214ca68fa7681f3a117, type: 3}
+  - {fileID: -741859577, guid: 17fe1af548554214ca68fa7681f3a117, type: 3}
+  - {fileID: 823261362, guid: 17fe1af548554214ca68fa7681f3a117, type: 3}
+  spritesRed:
+  - {fileID: -841511665, guid: 17fe1af548554214ca68fa7681f3a117, type: 3}
+  - {fileID: -2116094542, guid: 17fe1af548554214ca68fa7681f3a117, type: 3}
+  - {fileID: -1037896596, guid: 17fe1af548554214ca68fa7681f3a117, type: 3}
+  - {fileID: 1250896280, guid: 17fe1af548554214ca68fa7681f3a117, type: 3}
+  spritesYellow:
+  - {fileID: 1622744939, guid: 17fe1af548554214ca68fa7681f3a117, type: 3}
+  - {fileID: -1995767069, guid: 17fe1af548554214ca68fa7681f3a117, type: 3}
+  - {fileID: 1486010204, guid: 17fe1af548554214ca68fa7681f3a117, type: 3}
+  - {fileID: 1058438752, guid: 17fe1af548554214ca68fa7681f3a117, type: 3}
+  spritesGreen:
+  - {fileID: 1372631427, guid: 17fe1af548554214ca68fa7681f3a117, type: 3}
+  - {fileID: 324582100, guid: 17fe1af548554214ca68fa7681f3a117, type: 3}
+  - {fileID: -976811021, guid: 17fe1af548554214ca68fa7681f3a117, type: 3}
+  - {fileID: -1062346168, guid: 17fe1af548554214ca68fa7681f3a117, type: 3}
+  spritesViolet:
+  - {fileID: -687047056, guid: 17fe1af548554214ca68fa7681f3a117, type: 3}
+  - {fileID: -1780478220, guid: 17fe1af548554214ca68fa7681f3a117, type: 3}
+  - {fileID: 1185443583, guid: 17fe1af548554214ca68fa7681f3a117, type: 3}
+  - {fileID: -1734105057, guid: 17fe1af548554214ca68fa7681f3a117, type: 3}
+  probabilidadPowerUp: 0.5
+  powerUpBolaPrefab: {fileID: 8892686974303107422, guid: aeedc5af2bfbc3f4380adecf56e2648a, type: 3}
+  powerUpVidaPrefab: {fileID: 6820630229417167470, guid: c2128fa3f0910e043b88c1fdc9b38d49, type: 3}
+  aleatorio: 1

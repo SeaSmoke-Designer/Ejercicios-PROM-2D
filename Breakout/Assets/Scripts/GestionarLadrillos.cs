@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using TMPro;
+using System.Text;
 
 public class GestionarLadrillos : MonoBehaviour
 {
@@ -29,18 +30,21 @@ public class GestionarLadrillos : MonoBehaviour
     private bool procedural;
 
     [SerializeField] bool aleatorio;
+    private readonly List<string> tagsLadrillos = new List<string>{ "Blue", "Red", "Yellow", "Violet", "Green" };
+    private StringBuilder sb;
 
     //[SerializeField] private TagValueType tagLadrillo;
     // Start is called before the first frame update
 
     private void Awake()
     {
+        //tagsLadrillos = new string[] {"Blue","Red","Yellow","Violet","Green"};
         userDataManager = GameObject.Find("UserDataManager").GetComponent<UserDataManager>();
         if (userDataManager != null) procedural = userDataManager.levelProcedural;
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-
-        gm.LlenarListaLadrillos(gameObject);
+        sb = new StringBuilder();
+        //
     }
     void Start()
     {
@@ -49,6 +53,8 @@ public class GestionarLadrillos : MonoBehaviour
             ElegirTipoAleatorio();
         else
             ElegirTipo();
+
+        gm.LlenarListaLadrillos(gameObject);
     }
 
     // Update is called once per frame
@@ -68,7 +74,8 @@ public class GestionarLadrillos : MonoBehaviour
     void ElegirTipoAleatorio()
     {
         vidaLadrillo = Random.Range(1, 5);
-
+        gameObject.tag = tagsLadrillos[Random.Range(0, 5)];
+        SpritesLadrillos();
     }
 
     void SpritesLadrillos()
@@ -96,22 +103,31 @@ public class GestionarLadrillos : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.CompareTag("Ball"))
+        {
+            sb.Append("Nombre ladrillo: " + gameObject.tag + "\n");
+            //Debug.Log("Nombre ladrillo: " + gameObject.tag);
             QuitarVida();
+        }
+
     }
 
     void QuitarVida()
     {
-        vidaLadrillo -= 1;
+        sb.Append("Vida anterior: " + vidaLadrillo + "\n");
+        vidaLadrillo--;
         if (vidaLadrillo > 0)
         {
-            ElegirTipo();
+            SpritesLadrillos();
+            sb.Append("Vida Actual: " + vidaLadrillo + "\n");
         }
         else
         {
             LanzarPowerUp();
-            //gm.EliminarLadrillo(gameObject);
+            gm.EliminarLadrillo(gameObject);
             Destroy(gameObject);
+            sb.Append("Fui Destruido");
         }
+        Debug.Log(sb);
     }
 
 
