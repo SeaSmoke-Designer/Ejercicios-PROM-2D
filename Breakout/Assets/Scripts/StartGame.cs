@@ -11,6 +11,7 @@ public class StartGame : MonoBehaviour
     {
         //SceneManager.LoadScene(0);
         userDataManager = GameObject.Find("UserDataManager").GetComponent<UserDataManager>();
+        userDataManager.ResetValues();
     }
 
     // Update is called once per frame

@@ -16,13 +16,14 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject paddlePrefab;
     private GameObject paddle;
     [SerializeField] private GameObject textLose;
+    [SerializeField] private GameObject textWin;
     private List<GameObject> ladrillosList = new List<GameObject>();
 
     [SerializeField] private List<GameObject> spritesLifes = new List<GameObject>();
 
     [SerializeField] private Sprite spriteNoLife;
     [SerializeField] private Sprite spriteLife;
-    [SerializeField] private GameObject textWin;
+
     private int vidas;
 
     private List<GameObject> balls;
@@ -34,11 +35,11 @@ public class GameManager : MonoBehaviour
     {
         userDataManager = GameObject.Find("UserDataManager").GetComponent<UserDataManager>();
         state = eStates.Ready;
-        vidas = userDataManager.vidas;
+
     }
     void Start()
     {
-
+        vidas = userDataManager.vidas;
         paddle = Instantiate(paddlePrefab);
         balls = new List<GameObject>();
         ball = Instantiate(ballPrefab);
@@ -47,6 +48,9 @@ public class GameManager : MonoBehaviour
         textLose.SetActive(false);
         textWin.SetActive(false);
         //vidas = 3;
+        if (vidas < 3)
+            CambiarSpritesNoLifes();
+        //CambiarSpritesNoLifes();
     }
 
 
@@ -76,6 +80,8 @@ public class GameManager : MonoBehaviour
 
     void UpdateReady()
     {
+        if (Input.GetKeyDown(KeyCode.P))
+            state = eStates.NextLevel;
         if (Input.GetKeyDown(KeyCode.Space))
         {
             //ball = Instantiate(ballPrefab);
@@ -94,7 +100,17 @@ public class GameManager : MonoBehaviour
         DestroyObjects();
         textWin.SetActive(true);
         if (Input.GetKeyDown(KeyCode.Space))
-            SceneManager.LoadScene(3);
+            if (!userDataManager.levelProcedural)
+            {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+            }
+
+            else
+            {
+                userDataManager.vidas = vidas;
+                userDataManager.level++;
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            }
     }
 
     void UpdateGameOver()
@@ -109,7 +125,6 @@ public class GameManager : MonoBehaviour
 
     public void ResetBall(GameObject gameObject)
     {
-
         for (int i = 0; i < balls.Count; i++)
         {
             if (gameObject == balls[i])
@@ -126,11 +141,11 @@ public class GameManager : MonoBehaviour
         }
 
 
-
     }
     void QuitarVida()
     {
         vidas -= 1;
+        //CambiarSpritesNoLifes();
         CambiarSpritesNoLifes();
         if (vidas > 0)
         {
@@ -155,12 +170,13 @@ public class GameManager : MonoBehaviour
         {
             foreach (PowerUp item in powerUps)
             {
-                Destroy(item);
+                item.GetComponent<PowerUp>().DestruirPowerUp();
+                //Destroy(item);
                 Debug.Log("Elimino PowerUp");
             }
         }
     }
-    void CambiarSpritesNoLifes()
+    /*void CambiarSpritesNoLifes()
     {
         switch (vidas)
         {
@@ -174,6 +190,16 @@ public class GameManager : MonoBehaviour
                 spritesLifes[0].GetComponent<SpriteRenderer>().sprite = spriteNoLife;
                 break;
         }
+    }*/
+
+    void CambiarSpritesNoLifes()
+    {
+        if (vidas <= 2)
+            spritesLifes[2].GetComponent<SpriteRenderer>().sprite = spriteNoLife;
+        if (vidas == 1)
+            spritesLifes[1].GetComponent<SpriteRenderer>().sprite = spriteNoLife;
+        if (vidas == 0)
+            spritesLifes[0].GetComponent<SpriteRenderer>().sprite = spriteNoLife;
     }
 
     void CambiarSpritesLifes()

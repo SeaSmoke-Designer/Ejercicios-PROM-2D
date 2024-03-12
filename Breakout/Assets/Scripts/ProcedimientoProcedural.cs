@@ -56,8 +56,8 @@ public class ProcedimientoProcedural : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.N))
-            NextLevel();
+        //if (Input.GetKeyDown(KeyCode.N))
+        //NextLevel();
     }
 
     void ElegirColorYVida()

@@ -52,7 +52,7 @@ public class PowerUp : MonoBehaviour
         }
     }
 
-    public void DestruirPowerUps()
+    public void DestruirPowerUp()
     {
         Destroy(gameObject);
     }

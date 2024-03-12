@@ -22,4 +22,11 @@ public class UserDataManager : Singleton<UserDataManager>
         columnas = c;
         filas = f;
     }
+
+    public void ResetValues()
+    {
+        vidas = 3;
+        level = 1;
+        levelProcedural = false;
+    }
 }

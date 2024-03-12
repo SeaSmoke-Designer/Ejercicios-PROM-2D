@@ -12,8 +12,8 @@ public class GestionarLadrillos : MonoBehaviour
     [SerializeField] private List<Sprite> spritesYellow;
     [SerializeField] private List<Sprite> spritesGreen;
     [SerializeField] private List<Sprite> spritesViolet;
-    //[Range(1, 4)]
-    //[SerializeField] 
+    [Range(1, 4)]
+    [SerializeField]
     private int vidaLadrillo;
 
     private SpriteRenderer spriteRenderer;
@@ -30,7 +30,7 @@ public class GestionarLadrillos : MonoBehaviour
     private bool procedural;
 
     [SerializeField] bool aleatorio;
-    private readonly List<string> tagsLadrillos = new List<string>{ "Blue", "Red", "Yellow", "Violet", "Green" };
+    private readonly List<string> tagsLadrillos = new List<string> { "Blue", "Red", "Yellow", "Violet", "Green" };
     private StringBuilder sb;
 
     //[SerializeField] private TagValueType tagLadrillo;
@@ -41,13 +41,14 @@ public class GestionarLadrillos : MonoBehaviour
         //tagsLadrillos = new string[] {"Blue","Red","Yellow","Violet","Green"};
         userDataManager = GameObject.Find("UserDataManager").GetComponent<UserDataManager>();
         if (userDataManager != null) procedural = userDataManager.levelProcedural;
-        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        sb = new StringBuilder();
+        //gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+        //sb = new StringBuilder();
         //
     }
     void Start()
     {
+        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
         //vidaLadrillo = 1;
         if (aleatorio)
             ElegirTipoAleatorio();
@@ -104,7 +105,7 @@ public class GestionarLadrillos : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Ball"))
         {
-            sb.Append("Nombre ladrillo: " + gameObject.tag + "\n");
+            //sb.Append("Nombre ladrillo: " + gameObject.tag + "\n");
             //Debug.Log("Nombre ladrillo: " + gameObject.tag);
             QuitarVida();
         }
@@ -113,21 +114,21 @@ public class GestionarLadrillos : MonoBehaviour
 
     void QuitarVida()
     {
-        sb.Append("Vida anterior: " + vidaLadrillo + "\n");
+        //sb.Append("Vida anterior: " + vidaLadrillo + "\n");
         vidaLadrillo--;
         if (vidaLadrillo > 0)
         {
             SpritesLadrillos();
-            sb.Append("Vida Actual: " + vidaLadrillo + "\n");
+            //sb.Append("Vida Actual: " + vidaLadrillo + "\n");
         }
         else
         {
             LanzarPowerUp();
             gm.EliminarLadrillo(gameObject);
             Destroy(gameObject);
-            sb.Append("Fui Destruido");
+            //sb.Append("Fui Destruido");
         }
-        Debug.Log(sb);
+        //Debug.Log(sb);
     }
 
 
