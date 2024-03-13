@@ -10,9 +10,9 @@ public class ProcedimientoProcedural : MonoBehaviour
     private int filas;
     private int columnas;
 
-    private float maxLadrillos = 8;
+    //private float maxLadrillos = 8;
 
-    [SerializeField] private int nivel;
+    [SerializeField] private int currentLevel;
     private bool nivelGenerado;
     private int colorLadrillo;
     private UserDataManager userDataManager;
@@ -26,6 +26,10 @@ public class ProcedimientoProcedural : MonoBehaviour
     private float posicionEnY;
 
     private int vidaLadrillo;
+    private float lerpYValue;
+    private float yPos;
+    private float lerpXValue;
+    private float xPos;
 
     //private float num;
     //private float num2;
@@ -48,7 +52,7 @@ public class ProcedimientoProcedural : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        nivel = userDataManager.level;
+        currentLevel = userDataManager.level;
         MirarNivel();
         SpwanLadrillos();
     }
@@ -65,7 +69,7 @@ public class ProcedimientoProcedural : MonoBehaviour
         //do
         //{
         colorLadrillo = Random.Range(0, 5);
-        if (nivel >= 8)
+        if (currentLevel >= 8)
             vidaLadrillo = Random.Range(3, 5);
         else
             vidaLadrillo = Random.Range(1, 5);
@@ -85,7 +89,7 @@ public class ProcedimientoProcedural : MonoBehaviour
 
     void MirarNivel()
     {
-        switch (nivel)
+        switch (currentLevel)
         {
             case 1:
                 columnas = 3;
@@ -119,33 +123,61 @@ public class ProcedimientoProcedural : MonoBehaviour
         userDataManager.CambiarColumnasFilas(columnas, filas);
     }
 
+
+    private string lastTagLadrillo;
+    private GameObject ladrillo;
     void SpwanLadrillos()
     {
         for (int i = 0; i < filas; i++)
         {
+            lerpYValue = i / (filas - 1f);
             ElegirColorYVida();
-
-            float lerpYValue = i / (filas - 1f);
-            float yPos = Mathf.Lerp(minY, maxY, lerpYValue);
+            ElegirPosY();
+            
             //Debug.Log(yPos);
             for (int j = 0; j < columnas; j++)
             {
+                lerpXValue = j / (columnas - 1f);
+                xPos = Mathf.Lerp(minX, maxX, lerpXValue);
+                //do
+                //{
+                ladrillo = Instantiate(ladrillosPrefabs[colorLadrillo]);
+                   // if (ladrillo.CompareTag(lastTagLadrillo))
+                       //Destroy(ladrillo);
+                //} while (ladrillo.CompareTag(lastTagLadrillo));
 
-                float lerpXValue = j / (columnas - 1f);
-                float xPos = Mathf.Lerp(-7.1f, 7, lerpXValue);
-
-                GameObject ladrillo = Instantiate(ladrillosPrefabs[colorLadrillo]);
                 ladrillo.GetComponent<GestionarLadrillos>().SetVidaLadrillo(vidaLadrillo);
                 ladrillo.transform.position = new Vector2(xPos, yPos);
                 Debug.Log("Tag: " + ladrillo.tag + " Vida: " + vidaLadrillo);
 
             }
+
+            if (ladrillo.CompareTag(lastTagLadrillo))
+            {
+
+                for (int a = 0; a < columnas; a++)
+                {
+
+                }
+            }
+
         }
     }
 
-    void NextLevel()
+    void ElegirPosY()
     {
-        userDataManager.level++;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        if (currentLevel < 3)
+        {
+            yPos = Mathf.Lerp((minY / 3), (maxY / 3), lerpYValue);
+        }
+        else if (currentLevel < 5)
+        {
+            yPos = Mathf.Lerp((minY / 2), (maxY / 2), lerpYValue);
+        }
+        else
+        {
+            yPos = Mathf.Lerp(minY, maxY, lerpYValue);
+        }
     }
+
 }

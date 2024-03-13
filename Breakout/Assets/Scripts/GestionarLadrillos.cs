@@ -41,20 +41,24 @@ public class GestionarLadrillos : MonoBehaviour
         //tagsLadrillos = new string[] {"Blue","Red","Yellow","Violet","Green"};
         userDataManager = GameObject.Find("UserDataManager").GetComponent<UserDataManager>();
         if (userDataManager != null) procedural = userDataManager.levelProcedural;
-        //gm = GameObject.Find("GameManager").GetComponent<GameManager>();
-        //sb = new StringBuilder();
-        //
+        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+       
     }
     void Start()
     {
-        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        //vidaLadrillo = 1;
-        if (aleatorio)
-            ElegirTipoAleatorio();
+        if (procedural)
+        {
+            //ElegirTipoProcedural();
+            SpritesLadrillos();
+        }
         else
-            ElegirTipo();
-
+        {
+            if (aleatorio)
+                ElegirTipoAleatorio();
+            else
+                SpritesLadrillos();
+        }
         gm.LlenarListaLadrillos(gameObject);
     }
 
@@ -66,8 +70,13 @@ public class GestionarLadrillos : MonoBehaviour
 
     void ElegirTipo()
     {
-        if (!procedural)
-            vidaLadrillo = Random.Range(1, 5);
+        
+            
+    }
+
+    void ElegirTipoProcedural()
+    {
+        //vidaLadrillo = Random.Range(1, 5);
 
         SpritesLadrillos();
     }
