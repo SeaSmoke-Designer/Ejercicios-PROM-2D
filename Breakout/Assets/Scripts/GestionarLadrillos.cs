@@ -31,7 +31,7 @@ public class GestionarLadrillos : MonoBehaviour
 
     [SerializeField] bool aleatorio;
     private readonly List<string> tagsLadrillos = new List<string> { "Blue", "Red", "Yellow", "Violet", "Green" };
-    private StringBuilder sb;
+    //private StringBuilder sb;
 
     //[SerializeField] private TagValueType tagLadrillo;
     // Start is called before the first frame update
@@ -43,7 +43,7 @@ public class GestionarLadrillos : MonoBehaviour
         if (userDataManager != null) procedural = userDataManager.levelProcedural;
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-       
+
     }
     void Start()
     {
@@ -66,19 +66,6 @@ public class GestionarLadrillos : MonoBehaviour
     void Update()
     {
 
-    }
-
-    void ElegirTipo()
-    {
-        
-            
-    }
-
-    void ElegirTipoProcedural()
-    {
-        //vidaLadrillo = Random.Range(1, 5);
-
-        SpritesLadrillos();
     }
 
     void ElegirTipoAleatorio()
@@ -166,24 +153,5 @@ public class GestionarLadrillos : MonoBehaviour
     bool ProbabilidadPowerUp() => Random.value < probabilidadPowerUp;
 
     public void SetVidaLadrillo(int value) => vidaLadrillo = value;
-
-
-    /*void CompribarVida()
-    {
-        spriteRenderer =
-        switch (vidaLadrillo)
-        {
-            case 2:
-                break;
-            case 3:
-                break;
-            case 4:
-                break;
-
-            default:
-        }
-    }*/
-
-
 
 }

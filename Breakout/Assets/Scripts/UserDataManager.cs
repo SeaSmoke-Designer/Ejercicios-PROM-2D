@@ -12,7 +12,6 @@ public class UserDataManager : Singleton<UserDataManager>
 
     private void Start()
     {
-        //levelProcedural = true; //Quitar mas adelante
         level = 1;
         vidas = 3;
     }

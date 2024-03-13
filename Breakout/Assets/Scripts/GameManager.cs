@@ -172,7 +172,7 @@ public class GameManager : MonoBehaviour
             {
                 item.GetComponent<PowerUp>().DestruirPowerUp();
                 //Destroy(item);
-                Debug.Log("Elimino PowerUp");
+                //Debug.Log("Elimino PowerUp");
             }
         }
     }
@@ -208,11 +208,11 @@ public class GameManager : MonoBehaviour
         {
             case 1:
                 spritesLifes[1].GetComponent<SpriteRenderer>().sprite = spriteLife;
-                Debug.Log("Cambio el segundo corazon");
+                //Debug.Log("Cambio el segundo corazon");
                 break;
             case 2:
                 spritesLifes[2].GetComponent<SpriteRenderer>().sprite = spriteLife;
-                Debug.Log("Cambio el tercer corazon");
+                //Debug.Log("Cambio el tercer corazon");
                 break;
         }
     }
@@ -250,7 +250,7 @@ public class GameManager : MonoBehaviour
                     Destroy(item);
 
             balls.Clear();
-            Debug.Log("Bolas destriudas");
+            //Debug.Log("Bolas destriudas");
             if (ladrillosList.Count > 0)
                 foreach (GameObject item in ladrillosList)
                     Destroy(item);
@@ -268,7 +268,7 @@ public class GameManager : MonoBehaviour
     {
         if (vidas < 3)
         {
-            Debug.Log("Cura");
+            //Debug.Log("Cura");
             CambiarSpritesLifes();
             vidas += 1;
         }
@@ -280,7 +280,7 @@ public class GameManager : MonoBehaviour
         ball.transform.localPosition = new Vector2(paddle.transform.localPosition.x, ball.transform.localPosition.y);
         balls.Add(ball);
         ball.GetComponent<Ball>().Launch();
-        Debug.Log("Launch");
+        //Debug.Log("Launch");
 
     }
 

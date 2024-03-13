@@ -64,9 +64,7 @@ public class Player : MonoBehaviour
             deslizando = true;
         else
             deslizando = false;
-        animator.SetBool("IsRunning", movementH != 0f);
-        animator.SetBool("IsGrounded", IsGrounded());
-        animator.SetBool("OnWall", isNextToTheWall());
+        Animaciones();
     }
 
     void FixedUpdate()
@@ -77,6 +75,13 @@ public class Player : MonoBehaviour
 
         if (isJump)
             Jump();
+    }
+
+    void Animaciones()
+    {
+        animator.SetBool("IsRunning", movementH != 0f);
+        animator.SetBool("IsGrounded", IsGrounded());
+        animator.SetBool("OnWall", isNextToTheWall());
     }
 
     private void Jump()
@@ -122,9 +127,8 @@ public class Player : MonoBehaviour
             isDoubleJump = false;
         }
         else
-        {
             SaltoPared();
-        }
+
 
     }
 
@@ -172,7 +176,7 @@ public class Player : MonoBehaviour
         hit = false;
     }
 
-    public void AnimationDesaparecer()
+    public void AnimacionDesaparecer()
     {
         AudioManager.Instance.PlayClip(desapareceSound);
         animator.SetTrigger("IsDead");
@@ -185,8 +189,8 @@ public class Player : MonoBehaviour
         {
             gm.LanzarAnimacionDeath();
         }
-        
-        
+
+
     }
 
 

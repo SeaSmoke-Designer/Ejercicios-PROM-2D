@@ -11,18 +11,20 @@ public class DesplazarX : MonoBehaviour
     [SerializeField] private float maxX;
     [SerializeField] private float tiempoEspera;
     [SerializeField] private float speed;
+    [SerializeField] private bool debug;
     private Rigidbody2D rb;
     private bool mover;
     private GameManager gm;
     private SpriteRenderer sprite;
+    float mov = 0f;
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         sprite = GetComponent<SpriteRenderer>();
-        rb.velocity =  new Vector2(1f*speed, rb.velocity.y);
         mover = true;
+        mov = 1f;
     }
 
     // Update is called once per frame
@@ -32,35 +34,46 @@ public class DesplazarX : MonoBehaviour
         {
             if (transform.position.x <= minX)
             {
+                mover = false;
                 StartCoroutine(CorMoverPositivo());
             }
             else if (transform.position.x >= maxX)
             {
+                mover = false;
                 StartCoroutine(CorMoverNegativo());
             }
         }
+        else
+        {
+            if (debug) Debug.Log("Waiting");
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        rb.velocity = new Vector2(mov * speed, rb.velocity.y);
     }
 
     IEnumerator CorMoverPositivo()
     {
         mover = false;
-        rb.velocity = new Vector2(0, rb.velocity.y);
+        mov = 0f;
         yield return new WaitForSeconds(tiempoEspera);
-        rb.velocity = new Vector2(1f * speed, rb.velocity.y);
+        mov = 1f;
         sprite.flipX = true;
         mover = true;
-        
+
     }
 
     IEnumerator CorMoverNegativo()
     {
         mover = false;
-        rb.velocity = new Vector2(0, rb.velocity.y);
+        mov = 0f;
         yield return new WaitForSeconds(tiempoEspera);
-        rb.velocity = new Vector2(-1f * speed, rb.velocity.y);
+        mov = -1f;
         sprite.flipX = false;
         mover = true;
-        
+
     }
 
     //public bool GetMover() => mover;

@@ -21,7 +21,7 @@ public class PowerUp : MonoBehaviour
         }
         catch (System.Exception ex)
         {
-            Debug.Log("No se pudo");
+            //Debug.Log("No se pudo");
             Debug.Log(ex.Message);
             //throw;
         }
@@ -35,21 +35,27 @@ public class PowerUp : MonoBehaviour
         {
             if (gameObject.CompareTag("PowerUpVida"))
             {
-                Debug.Log("Curar");
+                //Debug.Log("Curar");
                 gm.Curar();
                 Destroy(gameObject);
             }
             else if (gameObject.CompareTag("PowerUpBola"))
             {
-                Debug.Log("Bola");
+                //Debug.Log("Bola");
                 gm.AddBall();
                 Destroy(gameObject);
             }
         }
-        else if (other.gameObject.CompareTag("Dead"))
+        /*else if (other.gameObject.CompareTag("Dead"))
         {
             Destroy(gameObject);
-        }
+        }*/
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Dead"))
+            Destroy(gameObject);
     }
 
     public void DestruirPowerUp()

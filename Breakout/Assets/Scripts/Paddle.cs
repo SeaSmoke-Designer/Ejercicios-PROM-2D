@@ -12,15 +12,15 @@ public class Paddle : MonoBehaviour
     private float speed;
 
     private float movement;
-    private Vector3 startPosition;
+    //private Vector3 startPosition;
 
-    private GameObject ball;
-    private GameManager gm;
+    //private GameObject ball;
+    //private GameManager gm;
 
     void Start()
     {
-        startPosition = transform.position;
-        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+        //startPosition = transform.position;
+        //gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         //ball = GameObject.Find("Ball");
     }
 
@@ -37,26 +37,5 @@ public class Paddle : MonoBehaviour
         //ball.GetComponent<Ball>().BallMove(movement * speed);
     }
 
-    /*public void ResetPaddle()
-    {
-        transform.position = startPosition;
-    }*/
-
-
-    /*private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.CompareTag("PowerUpVida"))
-        {
-            Debug.Log("Curar");
-            gm.Curar();
-            Destroy(collision.gameObject);
-        }
-        else if (collision.gameObject.CompareTag("PowerUpBola"))
-        {
-            Debug.Log("Bola");
-            Destroy(collision.gameObject);
-        }
-
-    }*/
 
 }

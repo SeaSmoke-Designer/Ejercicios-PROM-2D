@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
     private UserDataManager userDataManager;
     [SerializeField] private GameObject hubVidas;
     [SerializeField] private AudioClip winSound;
-    
+
 
     private void Awake()
     {
@@ -68,7 +68,7 @@ public class GameManager : MonoBehaviour
     public void PlayerDead()
     {
         AudioManager.Instance.StopMusic();
-        player.AnimationDesaparecer();
+        player.AnimacionDesaparecer();
     }
 
     public void LanzarAnimacionDeath()
@@ -88,7 +88,7 @@ public class GameManager : MonoBehaviour
     {
         AudioManager.Instance.StopMusic();
         AudioManager.Instance.PlayClip(winSound);
-        player.AnimationDesaparecer();
+        player.AnimacionDesaparecer();
         userDataManager.vidas = gestionarVida.GetCurrentLife();
         hubVidas.SetActive(false);
         sceneTransition.CambiarEscena();
