@@ -11,9 +11,8 @@ public class DesplazarX : MonoBehaviour
     [SerializeField] private float maxX;
     [SerializeField] private float tiempoEspera;
     [SerializeField] private float speed;
-    [SerializeField] private bool debug;
     private Rigidbody2D rb;
-    private bool mover;
+    private bool isMoving;
     private GameManager gm;
     private SpriteRenderer sprite;
     float mov = 0f;
@@ -23,29 +22,24 @@ public class DesplazarX : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         sprite = GetComponent<SpriteRenderer>();
-        mover = true;
+        isMoving = true;
         mov = 1f;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (mover)
+        if (transform.position.x > minX && transform.position.x < maxX)
         {
-            if (transform.position.x <= minX)
-            {
-                mover = false;
-                StartCoroutine(CorMoverPositivo());
-            }
-            else if (transform.position.x >= maxX)
-            {
-                mover = false;
-                StartCoroutine(CorMoverNegativo());
-            }
+            isMoving = true;
         }
-        else
+        else if (transform.position.x <= minX && isMoving)
         {
-            if (debug) Debug.Log("Waiting");
+            StartCoroutine(CorMoverPositivo());
+        }
+        else if (transform.position.x >= maxX && isMoving)
+        {
+            StartCoroutine(CorMoverNegativo());
         }
     }
 
@@ -56,27 +50,19 @@ public class DesplazarX : MonoBehaviour
 
     IEnumerator CorMoverPositivo()
     {
-        mover = false;
         mov = 0f;
+        isMoving = false;
         yield return new WaitForSeconds(tiempoEspera);
         mov = 1f;
         sprite.flipX = true;
-        mover = true;
-
     }
 
     IEnumerator CorMoverNegativo()
     {
-        mover = false;
         mov = 0f;
+        isMoving = false;
         yield return new WaitForSeconds(tiempoEspera);
         mov = -1f;
         sprite.flipX = false;
-        mover = true;
-
     }
-
-    //public bool GetMover() => mover;
-
-
 }
