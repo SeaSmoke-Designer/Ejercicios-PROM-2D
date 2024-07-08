@@ -195,7 +195,7 @@ public class Player : MonoBehaviour
 
 
 
-    /*void OnDrawGizmos()
+    void OnDrawGizmos()
     {
         if (boxCollider2D == null) return;
         Gizmos.color = Color.red;
@@ -206,6 +206,6 @@ public class Player : MonoBehaviour
 
         //Vector2 rayCastOrigin = new Vector2(boxCollider.bounds.center.x, boxCollider.bounds.min.y);
         //Gizmos.DrawLine(rayCastOrigin, rayCastOrigin - new Vector2(0, castDistance));
-    }*/
+    }
 }
 
