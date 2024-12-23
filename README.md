@@ -1,4 +1,4 @@
-Ejercicios de Programacion y motores de videojuegos
+Ejercicios en 2D de Programacion y motores de videojuegos
 
 Proyectos:
 
